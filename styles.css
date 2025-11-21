@@ -89,6 +89,12 @@ body::before {
     position: relative;
 }
 
+.logo-section {
+    margin-right: auto;
+    margin-left: 0;
+    justify-content: flex-start;
+}
+
 /* Logo Section */
 .logo-section {
     display: flex;
@@ -725,11 +731,14 @@ body::before {
     .header-container {
         padding: 1rem 1.25rem 1rem 0.875rem;
         gap: 1rem;
+        justify-content: space-between;
     }
     
     .logo-section {
-        margin-right: auto;
-        justify-content: flex-start;
+        margin-right: auto !important;
+        margin-left: 0 !important;
+        justify-content: flex-start !important;
+        flex-shrink: 0;
     }
     
     .logo {
@@ -762,6 +771,12 @@ body::before {
     
     .header-buttons {
         gap: 0.625rem;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: all !important;
+        position: static !important;
+        left: auto !important;
     }
 }
 
@@ -921,7 +936,7 @@ body::before {
     .mobile-menu-buttons {
         margin-top: auto;
         padding: 1.75rem 1.5rem;
-        display: flex;
+        display: flex !important;
         flex-direction: row;
         gap: 1rem;
         border-top: 1px solid rgba(69, 111, 68, 0.25);
@@ -929,6 +944,9 @@ body::before {
             transparent 0%, 
             rgba(69, 111, 68, 0.03) 100%);
         position: relative;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 10;
     }
     
     .mobile-menu-buttons::before {
@@ -947,6 +965,9 @@ body::before {
     .mobile-menu-buttons .btn {
         flex: 1;
         min-width: 0;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .header-container .header-buttons {
