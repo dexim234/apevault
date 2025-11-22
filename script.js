@@ -3,14 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing...');
     const navItems = document.querySelectorAll('.nav-item.dropdown');
     
-    // Function to check if mobile view
+    // Function to check if mobile/tablet view
     function isMobile() {
         return window.innerWidth <= 968;
     }
     
-    // Mobile menu toggle
-    function setupMobileMenu() {
-        if (isMobile()) {
+    // Function to check if tablet view
+    function isTablet() {
+        return window.innerWidth > 968 && window.innerWidth <= 1024;
+    }
+    
+    // Setup dropdown toggle for mobile and tablet
+    function setupDropdownToggle() {
+        const isMobileOrTablet = isMobile() || isTablet();
+        
+        if (isMobileOrTablet) {
             navItems.forEach(item => {
                 const link = item.querySelector('.nav-link');
                 const menu = item.querySelector('.dropdown-menu');
@@ -21,35 +28,66 @@ document.addEventListener('DOMContentLoaded', function() {
                     link.parentNode.replaceChild(newLink, link);
                     
                     newLink.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const isActive = item.classList.contains('active');
-                        
-                        // Close all other dropdowns
-                        navItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Toggle current dropdown
-                        if (isActive) {
-                            item.classList.remove('active');
-                        } else {
-                            item.classList.add('active');
+                        // На планшетах разрешаем и hover, и click
+                        if (isTablet()) {
+                            e.preventDefault();
+                            e.stopPropagation();
                             
-                            // Scroll to dropdown if it's opening
-                            setTimeout(() => {
-                                const dropdownMenu = item.querySelector('.dropdown-menu');
-                                if (dropdownMenu && window.innerWidth <= 968) {
-                                    dropdownMenu.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'nearest',
-                                        inline: 'nearest'
-                                    });
+                            const isActive = item.classList.contains('active');
+                            
+                            // Закрываем все другие dropdown
+                            navItems.forEach(otherItem => {
+                                if (otherItem !== item) {
+                                    otherItem.classList.remove('active');
                                 }
-                            }, 100);
+                            });
+                            
+                            // Toggle текущего dropdown
+                            if (isActive) {
+                                // Если уже активен - закрываем
+                                item.classList.remove('active');
+                            } else {
+                                // Если не активен - открываем
+                                item.classList.add('active');
+                            }
+                        } else {
+                            // На мобильных - полный контроль через click
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            const isActive = item.classList.contains('active');
+                            
+                            // Close all other dropdowns
+                            navItems.forEach(otherItem => {
+                                if (otherItem !== item) {
+                                    otherItem.classList.remove('active');
+                                }
+                            });
+                            
+                            // Toggle current dropdown
+                            if (isActive) {
+                                item.classList.remove('active');
+                            } else {
+                                item.classList.add('active');
+                                
+                                // Scroll to dropdown if it's opening
+                                setTimeout(() => {
+                                    const dropdownMenu = item.querySelector('.dropdown-menu');
+                                    const navList = item.closest('.nav-list');
+                                    if (dropdownMenu && navList) {
+                                        const menuRect = dropdownMenu.getBoundingClientRect();
+                                        const navRect = navList.getBoundingClientRect();
+                                        
+                                        if (menuRect.bottom > navRect.bottom) {
+                                            dropdownMenu.scrollIntoView({
+                                                behavior: 'smooth',
+                                                block: 'nearest',
+                                                inline: 'nearest'
+                                            });
+                                        }
+                                    }
+                                }, 150);
+                            }
                         }
                     });
                 }
@@ -60,6 +98,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.remove('active');
             });
         }
+    }
+    
+    // Mobile menu toggle (для мобильного меню)
+    function setupMobileMenu() {
+        setupDropdownToggle();
     }
     
     // Initial setup
@@ -186,6 +229,58 @@ document.addEventListener('DOMContentLoaded', function() {
         initCounters();
     }, 100);
     
+    // Animate community cards on scroll
+    const communityCards = document.querySelectorAll('.community-card');
+    if (communityCards.length > 0) {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        communityCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
+            card.style.animationPlayState = 'paused';
+            cardObserver.observe(card);
+        });
+    }
+    
+    // Animate team cards on scroll
+    const teamCards = document.querySelectorAll('.team-card');
+    if (teamCards.length > 0) {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        teamCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
+            card.style.animationPlayState = 'paused';
+            cardObserver.observe(card);
+        });
+    }
+    
     // Mobile menu toggle - инициализация
     function initMobileMenu() {
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -299,3 +394,154 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
 });
 
+
+// Copy wallet address function
+window.copyWallet = function(address, element) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(address).then(() => {
+            showCopied(element);
+        }).catch(() => {
+            fallbackCopy(address, element);
+        });
+    } else {
+        fallbackCopy(address, element);
+    }
+};
+
+function fallbackCopy(address, element) {
+    const tempInput = document.createElement('input');
+    tempInput.value = address;
+    tempInput.style.position = 'fixed';
+    tempInput.style.opacity = '0';
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999);
+    try {
+        document.execCommand('copy');
+        showCopied(element);
+    } catch (err) {
+        console.error('Failed to copy:', err);
+    }
+    document.body.removeChild(tempInput);
+}
+
+function showCopied(element) {
+    element.classList.add('copied', 'flash');
+    setTimeout(() => element.classList.remove('flash'), 500);
+    setTimeout(() => element.classList.remove('copied'), 2000);
+}
+
+// Ecosystem Section - Premium Modal and Animation
+document.addEventListener('DOMContentLoaded', () => {
+    // Premium staggered 3D reveal animation
+    const ecosystemCards = document.querySelectorAll('.ecosystem-card');
+    if (ecosystemCards.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
+                    const index = Array.from(ecosystemCards).indexOf(entry.target);
+                    const delay = index * 120; // Stagger delay for premium effect
+                    
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        ecosystemCards.forEach(card => {
+            observer.observe(card);
+        });
+    }
+    
+    // Premium magnetic hover effect for cards
+    ecosystemCards.forEach(card => {
+        const cardInner = card.querySelector('.card-inner');
+        let isHovering = false;
+        
+        card.addEventListener('mouseenter', () => {
+            isHovering = true;
+        });
+        
+        card.addEventListener('mousemove', (e) => {
+            if (!isHovering) return;
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const moveX = (x - centerX) / 20;
+            const moveY = (y - centerY) / 20;
+            
+            requestAnimationFrame(() => {
+                cardInner.style.transform = `translate3d(${moveX}px, ${moveY - 8}px, 20px) scale(1.02)`;
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            isHovering = false;
+            requestAnimationFrame(() => {
+                cardInner.style.transform = '';
+            });
+        });
+    });
+
+    // Initialize modals
+    const modalTriggers = document.querySelectorAll('.card-info[data-modal]');
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.modal .close');
+
+    // Open modal
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const modalId = trigger.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    // Close modal
+    function closeModal(modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = btn.closest('.modal');
+            if (modal) closeModal(modal);
+        });
+    });
+
+    // Close on backdrop click
+    modals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal(modal);
+            }
+        });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            modals.forEach(modal => {
+                if (modal.classList.contains('active')) {
+                    closeModal(modal);
+                }
+            });
+        }
+    });
+});
