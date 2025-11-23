@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupDropdownToggle() {
         const isMobileOrTablet = isMobile() || isTablet();
         
+        // На десктопе не настраиваем click обработчики - используем только hover
+        if (!isMobileOrTablet) {
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            return;
+        }
+        
         if (isMobileOrTablet) {
             navItems.forEach(item => {
                 const link = item.querySelector('.nav-link');
@@ -124,8 +132,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links (только для не-dropdown ссылок)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Пропускаем ссылки в dropdown меню на десктопе
+        const isDropdownLink = anchor.closest('.dropdown-menu');
+        const isDesktop = window.innerWidth > 1024;
+        
+        if (isDropdownLink && isDesktop) {
+            // На десктопе для dropdown ссылок не перехватываем клики
+            return;
+        }
+        
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href !== '#' && href.length > 1) {
@@ -229,30 +246,50 @@ document.addEventListener('DOMContentLoaded', function() {
         initCounters();
     }, 100);
     
+    // Animate sections on scroll
+    const sections = document.querySelectorAll('.about-section, .community-section, .mission-section, .team-section, .wallets-section, .ecosystem-section');
+    
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                sectionObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
+    });
+    
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+    
     // Animate community cards on scroll
     const communityCards = document.querySelectorAll('.community-card');
     if (communityCards.length > 0) {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    cardObserver.unobserve(entry.target);
-                }
+        // Cards will animate when section becomes visible
+        const communitySection = document.querySelector('.community-section');
+        if (communitySection) {
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Trigger card animations
+                        communityCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.animationPlayState = 'running';
+                            }, index * 100);
+                        });
+                        cardObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
-        }, observerOptions);
-        
-        communityCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
-            card.style.animationPlayState = 'paused';
-            cardObserver.observe(card);
-        });
+            
+            cardObserver.observe(communitySection);
+        }
     }
     
     // Animate team cards on scroll
@@ -273,11 +310,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, observerOptions);
         
         teamCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
-            card.style.animationPlayState = 'paused';
-            cardObserver.observe(card);
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
         });
     }
     
