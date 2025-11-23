@@ -271,18 +271,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Cards will animate when section becomes visible
         const communitySection = document.querySelector('.community-section');
         if (communitySection) {
-            const cardObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
                         // Trigger card animations
                         communityCards.forEach((card, index) => {
                             setTimeout(() => {
                                 card.style.animationPlayState = 'running';
                             }, index * 100);
                         });
-                        cardObserver.unobserve(entry.target);
-                    }
-                });
+                    cardObserver.unobserve(entry.target);
+                }
+            });
             }, {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
