@@ -160,94 +160,48 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Animated counter for statistics with easing
     function animateCounter(element, target, duration = 2500) {
-        if (!element) return;
+        if (!element || isNaN(target) || target < 0) {
+            console.error('animateCounter: invalid parameters', { element: !!element, target });
+            return;
+        }
         
         const start = 0;
         const startTime = performance.now();
+        let animationId = null;
         
         function easeOutCubic(t) {
             return 1 - Math.pow(1 - t, 3);
         }
         
         function update(currentTime) {
+            if (!element) {
+                if (animationId) cancelAnimationFrame(animationId);
+                return;
+            }
+            
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const easedProgress = easeOutCubic(progress);
             const current = Math.floor(start + (target - start) * easedProgress);
             
-            if (element) {
-                element.textContent = current;
-            }
+            element.textContent = current;
             
             if (progress < 1) {
-                requestAnimationFrame(update);
+                animationId = requestAnimationFrame(update);
             } else {
-                if (element) {
-                    element.textContent = target;
-                }
+                element.textContent = target;
+                console.log('Counter completed:', target);
             }
         }
         
-        requestAnimationFrame(update);
+        animationId = requestAnimationFrame(update);
     }
     
-    // Intersection Observer for counter animation
-    function initCounters() {
-        const statNumbers = document.querySelectorAll('.stat-number');
-        
-        if (statNumbers.length === 0) {
-            console.log('No stat numbers found');
-            return;
-        }
-        
-        console.log('Found', statNumbers.length, 'stat numbers');
-        
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '50px'
-        };
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const statNumber = entry.target;
-                    const animated = statNumber.getAttribute('data-animated');
-                    
-                    if (!animated || animated !== 'true') {
-                        const targetValue = statNumber.getAttribute('data-target');
-                        const target = parseInt(targetValue);
-                        
-                        console.log('Animating counter:', targetValue, 'target:', target);
-                        
-                        if (!isNaN(target) && target > 0) {
-                            statNumber.setAttribute('data-animated', 'true');
-                            statNumber.textContent = '0';
-                            
-                            // Небольшая задержка для плавности
-                            setTimeout(() => {
-                                animateCounter(statNumber, target, 2500);
-                            }, 100);
-                        }
-                    }
-                }
-            });
-        }, observerOptions);
-        
-        // Наблюдаем за самими числами, а не за карточками
-        statNumbers.forEach(statNumber => {
-            statsObserver.observe(statNumber);
-        });
-        
-        console.log('Counters initialized, observing', statNumbers.length, 'numbers');
-    }
-    
-    // Инициализация счетчиков
-    setTimeout(() => {
-        initCounters();
-    }, 100);
+    // Счетчики теперь запускаются только после появления блока "В цифрах"
+    // Автоматический запуск убран
     
     // Animate sections on scroll
-    const sections = document.querySelectorAll('.about-section, .community-section, .mission-section, .team-section, .wallets-section, .ecosystem-section');
+    const sections = document.querySelectorAll('.community-section, .mission-section, .team-section, .wallets-section, .ecosystem-section');
     
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -264,6 +218,258 @@ document.addEventListener('DOMContentLoaded', function() {
     sections.forEach(section => {
         sectionObserver.observe(section);
     });
+    
+    // Специальная анимация для секции "В цифрах" с отслеживанием направления скролла
+    const statsSection = document.querySelector('#we-are');
+    if (statsSection) {
+        let isAnimating = false;
+        let animationState = 'hidden'; // hidden, visible
+        let hasAnimated = false; // Флаг для предотвращения зацикливания
+        let countersStarted = false; // Флаг для запуска счетчиков
+        
+        // Находим контейнер внутри секции для анимации
+        const statsContainer = statsSection.querySelector('.about-container');
+        
+        if (!statsContainer) {
+            console.log('Stats: .about-container not found');
+            return;
+        }
+        
+        // Скрываем только контейнер, фон секции остается видимым
+        statsContainer.style.opacity = '0';
+        statsContainer.style.transform = 'translateX(100vw)';
+        
+        // Функция для запуска счетчиков
+        function startCountersAnimation() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            if (statNumbers.length === 0) {
+                console.log('Stats: No counters found');
+                return;
+            }
+            
+            console.log('Stats: Starting counters animation');
+            statNumbers.forEach((statNumber, index) => {
+                // Сбрасываем флаг анимации для повторного запуска
+                statNumber.removeAttribute('data-animated');
+                const targetValue = statNumber.getAttribute('data-target');
+                const target = parseInt(targetValue, 10);
+                
+                if (!isNaN(target) && target >= 0) {
+                    statNumber.setAttribute('data-animated', 'true');
+                    statNumber.textContent = '0';
+                    
+                    setTimeout(() => {
+                        animateCounter(statNumber, target, 2500);
+                    }, index * 150);
+                }
+            });
+        }
+        
+        // Функция для запуска анимации блока
+        function triggerAnimation() {
+            if (isAnimating || hasAnimated) {
+                return;
+            }
+            
+            console.log('Stats: Starting animation - triggered!');
+            isAnimating = true;
+            hasAnimated = true;
+            
+            // Убираем все классы анимации
+            statsContainer.classList.remove('animate-in', 'animate-out');
+            
+            // Сбрасываем стили и устанавливаем начальную позицию - всегда справа
+            requestAnimationFrame(() => {
+                statsContainer.style.transform = 'translateX(100vw)';
+                statsContainer.style.opacity = '0';
+                
+                requestAnimationFrame(() => {
+                    console.log('Stats: Adding animate-in class');
+                    statsContainer.classList.add('animate-in');
+                    animationState = 'visible';
+                    
+                    // Запускаем счетчики после завершения анимации блока (4.5 секунды)
+                    setTimeout(() => {
+                        isAnimating = false;
+                        console.log('Stats: Animation completed, starting counters');
+                        
+                        // Запускаем счетчики после полного появления блока
+                        if (!countersStarted) {
+                            countersStarted = true;
+                            startCountersAnimation();
+                        }
+                    }, 4500);
+                });
+            });
+        }
+        
+        // Проверяем позицию блока при скролле
+        function checkBlockPosition() {
+            const rect = statsSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const isNearViewport = rect.top < windowHeight + 500 && rect.bottom > -500;
+            
+            if (isNearViewport && !hasAnimated && !isAnimating) {
+                console.log('Stats: Block is near viewport, triggering animation');
+                triggerAnimation();
+            }
+        }
+        
+        // Проверяем при скролле
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkBlockPosition, 100);
+        }, { passive: true });
+        
+        // Проверяем сразу
+        setTimeout(checkBlockPosition, 500);
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const isVisible = entry.intersectionRatio >= 0.05; // Еще ниже порог
+                const canAnimate = entry.isIntersecting && isVisible && !isAnimating && !hasAnimated;
+                
+                console.log('=== Stats Observer ===');
+                console.log('isIntersecting:', entry.isIntersecting);
+                console.log('intersectionRatio:', entry.intersectionRatio.toFixed(2));
+                console.log('isVisible (>=0.05):', isVisible);
+                console.log('isAnimating:', isAnimating);
+                console.log('hasAnimated:', hasAnimated);
+                console.log('animationState:', animationState);
+                console.log('canAnimate:', canAnimate);
+                
+                // Дополнительная проверка через getBoundingClientRect
+                const rect = statsSection.getBoundingClientRect();
+                console.log('Block position:', {
+                    top: rect.top.toFixed(0),
+                    bottom: rect.bottom.toFixed(0),
+                    windowHeight: window.innerHeight,
+                    isNear: rect.top < window.innerHeight + 500 && rect.bottom > -500
+                });
+                console.log('====================');
+                
+                if (canAnimate) {
+                    triggerAnimation();
+                } else if (!entry.isIntersecting && animationState === 'visible' && !isAnimating) {
+                    console.log('Stats: Hiding section - leaving viewport');
+                    // Блок уходит из viewport - всегда уходит вправо
+                    isAnimating = true;
+                    statsContainer.classList.remove('animate-in');
+                    statsContainer.classList.add('animate-out');
+                    animationState = 'hidden';
+                    hasAnimated = false; // Разрешаем повторную анимацию
+                    countersStarted = false; // Сбрасываем флаг счетчиков
+                    
+                    setTimeout(() => {
+                        isAnimating = false;
+                        console.log('Stats: Hide animation completed');
+                    }, 3500);
+                }
+            });
+        }, {
+            threshold: [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.75, 1],
+            rootMargin: '500px 0px 500px 0px' // Еще больше отступ
+        });
+        
+        statsObserver.observe(statsSection);
+        console.log('Stats: Observer initialized for #we-are');
+    } else {
+        console.log('Stats: Section #we-are not found');
+    }
+    
+    // Анимация для раздела "Наши ценности" - выезд слева
+    const valuesSection = document.querySelector('#values');
+    if (valuesSection) {
+        const valuesContainer = valuesSection.querySelector('.values-container');
+        
+        if (valuesContainer) {
+            let valuesAnimating = false;
+            let valuesHasAnimated = false;
+            let valuesAnimationState = 'hidden';
+            
+            // Скрываем только контейнер, фон секции остается видимым
+            valuesContainer.style.opacity = '0';
+            valuesContainer.style.transform = 'translateX(-100vw)';
+            
+            // Функция для запуска анимации
+            function triggerValuesAnimation() {
+                if (valuesAnimating || valuesHasAnimated) {
+                    return;
+                }
+                
+                valuesAnimating = true;
+                valuesHasAnimated = true;
+                
+                // Убираем все классы анимации
+                valuesContainer.classList.remove('animate-in', 'animate-out');
+                
+                // Сбрасываем стили и устанавливаем начальную позицию - всегда слева
+                requestAnimationFrame(() => {
+                    valuesContainer.style.transform = 'translateX(-100vw)';
+                    valuesContainer.style.opacity = '0';
+                    
+                    requestAnimationFrame(() => {
+                        valuesContainer.classList.add('animate-in');
+                        valuesAnimationState = 'visible';
+                        
+                        setTimeout(() => {
+                            valuesAnimating = false;
+                        }, 4500);
+                    });
+                });
+            }
+            
+            // Проверяем позицию блока при скролле
+            function checkValuesPosition() {
+                const rect = valuesSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const isNearViewport = rect.top < windowHeight + 500 && rect.bottom > -500;
+                
+                if (isNearViewport && !valuesHasAnimated && !valuesAnimating) {
+                    triggerValuesAnimation();
+                }
+            }
+            
+            // Проверяем при скролле
+            let valuesScrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(valuesScrollTimeout);
+                valuesScrollTimeout = setTimeout(checkValuesPosition, 100);
+            }, { passive: true });
+            
+            // Проверяем сразу
+            setTimeout(checkValuesPosition, 500);
+            
+            const valuesObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const isVisible = entry.intersectionRatio >= 0.05;
+                    const canAnimate = entry.isIntersecting && isVisible && !valuesAnimating && !valuesHasAnimated;
+                    
+                    if (canAnimate) {
+                        triggerValuesAnimation();
+                    } else if (!entry.isIntersecting && valuesAnimationState === 'visible' && !valuesAnimating) {
+                        // Блок уходит из viewport - уходит влево
+                        valuesAnimating = true;
+                        valuesContainer.classList.remove('animate-in');
+                        valuesContainer.classList.add('animate-out');
+                        valuesAnimationState = 'hidden';
+                        valuesHasAnimated = false;
+                        
+                        setTimeout(() => {
+                            valuesAnimating = false;
+                        }, 3500);
+                    }
+                });
+            }, {
+                threshold: [0, 0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.75, 1],
+                rootMargin: '500px 0px 500px 0px'
+            });
+            
+            valuesObserver.observe(valuesSection);
+        }
+    }
     
     // Animate community cards on scroll
     const communityCards = document.querySelectorAll('.community-card');
