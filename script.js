@@ -914,6 +914,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Function to update roadmap line gradient transition point
+    function updateRoadmapLineTransition() {
+        const roadmapContainer = document.querySelector('.roadmap');
+        const roadmapLine = document.querySelector('.roadmap-line');
+        if (!roadmapContainer || !roadmapLine) return;
+        
+        // Find module 6 by its header text
+        const modules = document.querySelectorAll('.roadmap-module');
+        let module6 = null;
+        modules.forEach(module => {
+            const header = module.querySelector('.roadmap-module-header');
+            if (header && header.textContent.includes('Модуль 6')) {
+                module6 = module;
+            }
+        });
+        
+        // If we found module 6, calculate its end position
+        if (module6) {
+            const containerHeight = roadmapContainer.offsetHeight;
+            const module6Top = module6.offsetTop;
+            const module6Height = module6.offsetHeight;
+            const module6Bottom = module6Top + module6Height;
+            const transitionPercent = (module6Bottom / containerHeight) * 100;
+            
+            // Update CSS variable
+            roadmapLine.style.setProperty('--module6-end', transitionPercent + '%');
+        }
+    }
+    
     // Roadmap toggle lessons
     const roadmapToggleButtons = document.querySelectorAll('.roadmap-toggle-lessons');
     roadmapToggleButtons.forEach(btn => {
@@ -927,9 +956,51 @@ document.addEventListener('DOMContentLoaded', () => {
                     lessons.style.display = 'block';
                     this.textContent = 'Скрыть уроки';
                 }
+                // Update line transition after module expansion/collapse
+                // Use requestAnimationFrame to ensure DOM is updated
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        updateRoadmapLineTransition();
+                    });
+                });
             }
         });
     });
+    
+    // Update roadmap line transition on load and resize
+    if (document.querySelector('.roadmap-line')) {
+        // Initial update after DOM is ready
+        setTimeout(updateRoadmapLineTransition, 100);
+        
+        // Also update after page load (for images and other resources)
+        window.addEventListener('load', () => {
+            setTimeout(updateRoadmapLineTransition, 200);
+        });
+        
+        // Update on resize with debounce
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateRoadmapLineTransition, 150);
+        });
+        
+        // Also update when modules are visible (for lazy loading)
+        const roadmapObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    requestAnimationFrame(() => {
+                        setTimeout(updateRoadmapLineTransition, 200);
+                    });
+                    roadmapObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        const roadmapSection = document.querySelector('.roadmap-section');
+        if (roadmapSection) {
+            roadmapObserver.observe(roadmapSection);
+        }
+    }
     
     // FAQ toggle
     const faqItems = document.querySelectorAll('.faq-item');

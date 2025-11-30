@@ -19,6 +19,13 @@
     --glass-border: rgba(69, 111, 68, 0.2);
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+}
+
 body {
     font-family: 'Rajdhani', 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--dark);
@@ -27,6 +34,9 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
     font-weight: 400;
     letter-spacing: 0.5px;
 }
@@ -6688,16 +6698,18 @@ body::before {
     }
     
     .team-card {
-        text-align: left;
+        text-align: center;
+        align-items: center;
         padding: 2.5rem 2rem;
     }
     
     .team-photo {
-        margin: 0 0 1.75rem 0;
+        margin: 0 auto 1.75rem auto;
     }
     
     .team-name {
         text-align: left;
+        padding-left: 1rem;
     }
     
     .team-description-list {
@@ -6705,14 +6717,79 @@ body::before {
         align-items: flex-start;
         width: 100%;
         margin: 0;
+        padding-left: 1rem;
     }
     
-    /* Декоративные элементы на фоне карточек удалены - используется двойное обрамление */
+    .team-description-list li {
+        justify-content: flex-start;
+        width: 100%;
+    }
     
-    /* Декоративные иконки */
+    .team-description-list li span {
+        text-align: left;
+        max-width: 100%;
+    }
+    
+    /* Добавляем больше декоративных элементов на планшете */
+    .team-decorations::before {
+        content: '◆';
+        position: absolute;
+        top: 25%;
+        right: 12%;
+        font-size: 1.8rem;
+        color: rgba(69, 111, 68, 0.2);
+        animation: float 5s ease-in-out infinite;
+        animation-delay: 1s;
+        z-index: 0;
+    }
+    
+    .team-decorations::after {
+        content: '●';
+        position: absolute;
+        bottom: 25%;
+        left: 12%;
+        font-size: 1.6rem;
+        color: rgba(69, 111, 68, 0.18);
+        animation: float 6s ease-in-out infinite;
+        animation-delay: 2.5s;
+        z-index: 0;
+    }
+    
+    /* Декоративные иконки - увеличиваем размер и видимость */
     .decor-icon {
-        font-size: 2rem;
-        opacity: 0.2;
+        font-size: 2.2rem;
+        opacity: 0.25;
+    }
+    
+    /* Добавляем дополнительные декоративные элементы через псевдоэлементы карточки */
+    .team-card {
+        position: relative;
+    }
+    
+    .team-card::before {
+        content: '';
+        position: absolute;
+        top: 10%;
+        right: 8%;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle, rgba(69, 111, 68, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        animation: pulse 4s ease-in-out infinite;
+        animation-delay: 0.5s;
+        pointer-events: none;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.15;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.25;
+        transform: scale(1.2);
     }
 }
 
@@ -6731,17 +6808,19 @@ body::before {
     
     .team-card {
         padding: 2rem 1.75rem;
-        text-align: left;
+        text-align: center;
+        align-items: center;
     }
     
     .team-photo {
-        margin: 0 0 1.75rem 0;
+        margin: 0 auto 1.75rem auto;
         width: 120px;
         height: 120px;
     }
     
     .team-name {
         text-align: left;
+        padding-left: 0.75rem;
     }
     
     .team-description-list {
@@ -6750,6 +6829,17 @@ body::before {
         width: 100%;
         margin: 0;
         gap: 0.875rem;
+        padding-left: 0.75rem;
+    }
+    
+    .team-description-list li {
+        justify-content: flex-start;
+        width: 100%;
+    }
+    
+    .team-description-list li span {
+        text-align: left;
+        max-width: 100%;
     }
     
     /* Декоративные элементы на фоне карточек удалены - используется двойное обрамление */
@@ -6784,17 +6874,19 @@ body::before {
     
     .team-card {
         padding: 1.5rem 1.25rem;
-        text-align: left;
+        text-align: center;
+        align-items: center;
     }
     
     .team-photo {
-        margin: 0 0 1.75rem 0;
+        margin: 0 auto 1.75rem auto;
         width: 110px;
         height: 110px;
     }
     
     .team-name {
         text-align: left;
+        padding-left: 0.5rem;
     }
     
     .team-description-list {
@@ -6803,6 +6895,19 @@ body::before {
         width: 100%;
         margin: 0;
         gap: 0.75rem;
+        padding-left: 0.5rem;
+    }
+    
+    .team-description-list li {
+        justify-content: flex-start;
+        width: 100%;
+        font-size: 0.875rem;
+        gap: 0.75rem;
+    }
+    
+    .team-description-list li span {
+        text-align: left;
+        max-width: 100%;
     }
     
     /* Декоративные элементы на фоне карточек удалены - используется двойное обрамление */
@@ -6811,11 +6916,6 @@ body::before {
     .decor-icon {
         font-size: 2rem;
         opacity: 0.2;
-    }
-    
-    .team-description-list li {
-        font-size: 0.875rem;
-        gap: 0.75rem;
     }
     
     .team-icon {
@@ -10354,9 +10454,9 @@ body::before {
     border-radius: 2px;
     background: linear-gradient(180deg, 
         var(--primary-green) 0%, 
-        var(--primary-green) 37%,
-        rgba(69, 111, 68, 0.9) 37.5%,
-        rgba(212, 175, 55, 0.7) 38%,
+        var(--primary-green) calc(var(--module6-end, 37%) - 0.5%),
+        rgba(69, 111, 68, 0.9) calc(var(--module6-end, 37%) - 0.25%),
+        rgba(212, 175, 55, 0.7) var(--module6-end, 38%),
         rgba(212, 175, 55, 0.8) 68.5%,
         rgba(212, 175, 55, 0.7) 69%,
         rgba(157, 111, 217, 0.7) 69.5%,
@@ -10957,5 +11057,51 @@ body::before {
     .faq-answer > *:not(p) {
         margin: 0 0 1rem 0;
         line-height: 1.7;
+    }
+}
+
+/* Prevent horizontal scrolling on mobile and tablet */
+@media (max-width: 1024px) {
+    * {
+        max-width: 100vw;
+    }
+    
+    section,
+    .section,
+    .container,
+    .header-container,
+    .hero-container,
+    .about-container,
+    .community-container,
+    .pricing-container,
+    .product-container,
+    .roadmap-container,
+    .faq-container,
+    .wallets-container {
+        max-width: 100vw;
+        overflow-x: hidden;
+        position: relative;
+    }
+    
+    body::before {
+        max-width: 100vw;
+    }
+    
+    /* Fix elements with negative positions */
+    .dropdown-menu::before {
+        left: 0;
+        right: 0;
+    }
+    
+    /* Ensure all positioned elements stay within bounds */
+    [class*="coin"],
+    [class*="decoration"],
+    [class*="crypto"] {
+        max-width: 100vw;
+    }
+    
+    /* Prevent transforms from causing overflow */
+    * {
+        box-sizing: border-box;
     }
 }
