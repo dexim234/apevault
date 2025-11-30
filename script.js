@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize modals
     const modalTriggers = document.querySelectorAll('.card-info[data-modal]');
     const modals = document.querySelectorAll('.modal');
-    const closeButtons = document.querySelectorAll('.modal .close');
+    const closeButtons = document.querySelectorAll('.modal .close, .modal .modal-close');
 
     // Open modal
     modalTriggers.forEach(trigger => {
@@ -783,5 +783,159 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+    });
+    
+    // Функция для открытия модального окна с информацией о кошельках
+    window.openWalletsModal = function() {
+        const walletsModal = document.getElementById('walletsModal');
+        if (walletsModal) {
+            walletsModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+    
+    // Products Section - Plan Selection
+    document.querySelectorAll('.plan').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const group = btn.closest('.price-options');
+            if (group) {
+                group.querySelectorAll('.plan').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+        });
+    });
+    
+    // Products Section - Select Button
+    document.querySelectorAll('.select-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.product-card');
+            const productName = card.querySelector('.product-name')?.textContent || 'Продукт';
+            const priceOptions = card.querySelector('.price-options');
+            let selectedPrice = '';
+            
+            if (priceOptions) {
+                const activePlan = priceOptions.querySelector('.plan.active');
+                if (activePlan) {
+                    selectedPrice = activePlan.textContent.trim();
+                } else {
+                    // Если нет активного плана, берем первый
+                    const firstPlan = priceOptions.querySelector('.plan');
+                    if (firstPlan) {
+                        firstPlan.classList.add('active');
+                        selectedPrice = firstPlan.textContent.trim();
+                    }
+                }
+            } else {
+                const priceSingle = card.querySelector('.price-single');
+                if (priceSingle) {
+                    selectedPrice = priceSingle.textContent.trim();
+                }
+            }
+            
+            // Здесь можно добавить логику для обработки выбора продукта
+            console.log('Выбран продукт:', productName, 'Цена:', selectedPrice);
+            
+            // Временная анимация кнопки
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+    
+    // Learning Features Section - Animation
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    if (featureCards.length > 0) {
+        const featuresObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const index = Array.from(featureCards).indexOf(card);
+                    const isDesktop = window.innerWidth >= 1400;
+                    
+                    let delay = 0;
+                    
+                    if (isDesktop) {
+                        // На компе: по строкам (1 строка слева, 2 справа, 3 слева)
+                        const row = Math.floor(index / 3); // 0, 1, 2
+                        const positionInRow = index % 3; // 0, 1, 2
+                        
+                        // Задержка: строка * 300ms + позиция в строке * 100ms
+                        delay = row * 300 + positionInRow * 100;
+                    } else {
+                        // На планшетах и мобильных: по порядку с задержкой
+                        delay = index * 150;
+                    }
+                    
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, delay);
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+        
+        featureCards.forEach(card => featuresObserver.observe(card));
+    }
+
+    // Team Section - Animation
+    const teamCards = document.querySelectorAll('.team-card');
+    
+    if (teamCards.length > 0) {
+        const teamObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const index = Array.from(teamCards).indexOf(card);
+                    const delay = index * 200; // Staggered animation
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, delay);
+                } else {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                }
+            });
+        }, { 
+            threshold: 0.2,
+            rootMargin: '50px'
+        });
+        
+        teamCards.forEach(card => {
+            teamObserver.observe(card);
+        });
+    }
+    
+    // Roadmap toggle lessons
+    const roadmapToggleButtons = document.querySelectorAll('.roadmap-toggle-lessons');
+    roadmapToggleButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const lessons = this.nextElementSibling;
+            if (lessons && lessons.classList.contains('roadmap-lessons')) {
+                if (lessons.style.display === 'block') {
+                    lessons.style.display = 'none';
+                    this.textContent = 'Показать уроки';
+                } else {
+                    lessons.style.display = 'block';
+                    this.textContent = 'Скрыть уроки';
+                }
+            }
+        });
+    });
+    
+    // FAQ toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
     });
 });
