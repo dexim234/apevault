@@ -10449,9 +10449,9 @@ body::before {
         var(--primary-green) calc(var(--module6-end, 37%) - 0.5%),
         rgba(69, 111, 68, 0.9) calc(var(--module6-end, 37%) - 0.25%),
         rgba(212, 175, 55, 0.7) var(--module6-end, 38%),
-        rgba(212, 175, 55, 0.8) 68.5%,
-        rgba(212, 175, 55, 0.7) 69%,
-        rgba(157, 111, 217, 0.7) 69.5%,
+        rgba(212, 175, 55, 0.8) calc(var(--module11-end, 69.5%) - 0.5%),
+        rgba(212, 175, 55, 0.7) calc(var(--module11-end, 69.5%) - 0.25%),
+        rgba(157, 111, 217, 0.7) var(--module11-end, 69.5%),
         rgba(157, 111, 217, 0.8) 100%);
     z-index: 0;
 }
@@ -10571,6 +10571,7 @@ body::before {
     margin-bottom: 1.25rem;
     color: rgba(255, 255, 255, 0.8);
     line-height: 1.7;
+    font-weight: 400;
 }
 
 .roadmap-toggle-lessons {

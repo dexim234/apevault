@@ -923,16 +923,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Find module 6 by its header text
         const modules = document.querySelectorAll('.roadmap-module');
         let module6 = null;
+        let module11 = null;
+        
         modules.forEach(module => {
             const header = module.querySelector('.roadmap-module-header');
             if (header && header.textContent.includes('Модуль 6')) {
                 module6 = module;
             }
+            if (header && header.textContent.includes('Модуль 11')) {
+                module11 = module;
+            }
         });
+        
+        const containerHeight = roadmapContainer.offsetHeight;
         
         // If we found module 6, calculate its end position
         if (module6) {
-            const containerHeight = roadmapContainer.offsetHeight;
             const module6Top = module6.offsetTop;
             const module6Height = module6.offsetHeight;
             const module6Bottom = module6Top + module6Height;
@@ -940,6 +946,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Update CSS variable
             roadmapLine.style.setProperty('--module6-end', transitionPercent + '%');
+        }
+        
+        // If we found module 11, calculate its end position for purple color start
+        if (module11) {
+            const module11Top = module11.offsetTop;
+            const module11Height = module11.offsetHeight;
+            const module11Bottom = module11Top + module11Height;
+            const purpleStartPercent = (module11Bottom / containerHeight) * 100;
+            
+            // Update CSS variable for purple color start (after module 11)
+            roadmapLine.style.setProperty('--module11-end', purpleStartPercent + '%');
         }
     }
     
