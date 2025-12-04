@@ -539,11 +539,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Mobile menu initialized');
         
+        let isToggling = false;
+        
         function toggleMobileMenu(e) {
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
+            
+            // Защита от множественных вызовов
+            if (isToggling) {
+                return;
+            }
+            
+            isToggling = true;
             
             const isActive = mainNav.classList.contains('active');
             
@@ -552,13 +561,19 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 openMobileMenu();
             }
+            
+            // Снимаем блокировку через небольшую задержку
+            setTimeout(() => {
+                isToggling = false;
+            }, 300);
         }
         
         // Убеждаемся, что меню закрыто при загрузке
         closeMobileMenu();
         
         function openMobileMenu() {
-            console.log('Opening menu');
+            if (mainNav.classList.contains('active')) return;
+            
             mainNav.classList.add('active');
             mobileMenuToggle.classList.add('active');
             mobileOverlay.classList.add('active');
@@ -566,7 +581,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         function closeMobileMenu() {
-            console.log('Closing menu');
+            if (!mainNav.classList.contains('active')) return;
+            
             mainNav.classList.remove('active');
             mobileMenuToggle.classList.remove('active');
             mobileOverlay.classList.remove('active');

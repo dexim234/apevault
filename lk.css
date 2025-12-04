@@ -595,6 +595,8 @@
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    order: 1;
+    margin-left: auto;
 }
 
 .mobile-menu-header,
@@ -694,6 +696,11 @@
 
     .logo-section {
         margin-right: auto;
+    }
+
+    .mobile-menu-toggle {
+        order: 1;
+        margin-left: auto;
     }
 
     .header-buttons {
@@ -1554,6 +1561,7 @@
 .lk-section {
     display: none;
     animation: fadeIn 0.4s ease;
+    padding-top: 1rem;
 }
 
 .lk-section.active {
@@ -1562,11 +1570,23 @@
 
 .lk-section-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-bottom: 2.5rem;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.lk-section-header > .lk-section-title {
+    width: 100%;
+    text-align: center;
+}
+
+.lk-section-header > .lk-academy-stats,
+.lk-section-header > .lk-events-filters,
+.lk-section-header > .lk-buy-link {
+    margin-top: 0.5rem;
 }
 
 .lk-section-header-left {
@@ -1586,6 +1606,8 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
+    text-align: center;
+    width: 100%;
 }
 
 .lk-edit-btn {
@@ -2980,10 +3002,16 @@
         padding-top: 5rem;
     }
 
+    .lk-section {
+        padding-top: 0.5rem;
+    }
+
     .lk-section-header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 1rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
     }
 
     .lk-section-header-left {
