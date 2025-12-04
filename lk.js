@@ -378,9 +378,6 @@ function loadModules(containerId, academyType, startIndex, endIndex, isBase = fa
         // Base Academy - загружаем модули
         const baseModules = getBaseAcademyModules();
         
-        // Добавляем мотивационную плашку
-        container.innerHTML = createProAcademyBanner();
-        
         // Загружаем модули
         baseModules.forEach((module, index) => {
             const moduleNumber = index + 1;

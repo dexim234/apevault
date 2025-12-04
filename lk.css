@@ -405,6 +405,8 @@
     flex: 1;
     padding: 1.5rem 0;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .lk-nav-item {
@@ -455,6 +457,31 @@
     font-size: 1.125rem;
 }
 
+.lk-nav-item-home {
+    color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-left: 4px solid #ef4444 !important;
+    border-radius: 0 12px 12px 0;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.lk-nav-item-home:hover {
+    background: rgba(239, 68, 68, 0.25) !important;
+    color: #f87171 !important;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+    transform: translateX(4px);
+}
+
+.lk-nav-item-home.active {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+}
+
+.lk-nav-item-home::before {
+    background: linear-gradient(180deg, #ef4444, #f87171) !important;
+}
+
 .lk-sidebar-footer {
     padding: 1.5rem;
     border-top: 2px solid rgba(69, 111, 68, 0.2);
@@ -481,7 +508,7 @@
     display: none;
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    right: 1rem;
     z-index: 101;
     width: 48px;
     height: 48px;
@@ -1126,6 +1153,8 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .lk-event-card::before {
@@ -1214,11 +1243,14 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: auto;
+    align-items: flex-end;
 }
 
 .lk-event-btn {
     flex: 1;
     min-width: 140px;
+    min-height: 48px;
     padding: 0.875rem 1.5rem;
     background: rgba(69, 111, 68, 0.1);
     border: 2px solid rgba(69, 111, 68, 0.3);
@@ -1234,6 +1266,7 @@
     justify-content: center;
     gap: 0.5rem;
     font-size: 0.9375rem;
+    box-sizing: border-box;
 }
 
 .lk-event-btn:hover {
@@ -1969,7 +2002,7 @@
     
     .lk-mobile-menu-btn {
         top: 0.75rem;
-        left: 0.75rem;
+        right: 0.75rem;
         width: 44px;
         height: 44px;
     }
