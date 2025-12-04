@@ -2666,21 +2666,17 @@ body::before {
 }
 
 .about-container.animate-in {
-    animation: slideInFromRight 4.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: fadeInSimple 1.5s ease-out forwards;
 }
 
 .about-container.animate-out {
-    animation: slideOutToRight 3.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: fadeOutSimple 1s ease-in forwards;
 }
 
-@keyframes slideInFromRight {
+@keyframes fadeInSimple {
     0% {
         opacity: 0;
-        transform: translateX(100vw);
-    }
-    15% {
-        opacity: 0;
-        transform: translateX(80vw);
+        transform: translateX(0);
     }
     100% {
         opacity: 1;
@@ -2688,14 +2684,14 @@ body::before {
     }
 }
 
-@keyframes slideOutToRight {
+@keyframes fadeOutSimple {
     0% {
         opacity: 1;
         transform: translateX(0);
     }
     100% {
         opacity: 0;
-        transform: translateX(100vw);
+        transform: translateX(0);
     }
 }
 
@@ -2950,7 +2946,7 @@ body::before {
         }
     }
 }
-
+    
 /* Анимированный градиентный фон */
 .stat-card::before {
     content: '';
@@ -3241,7 +3237,7 @@ body::before {
         transform: translateY(-20px) rotate(180deg);
     }
 }
-
+    
 @keyframes pulse {
     0%, 100% {
         opacity: 0.5;
@@ -3291,21 +3287,17 @@ body::before {
 }
 
 .values-container.animate-in {
-    animation: slideInFromLeft 4.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: fadeInSimple 1.5s ease-out forwards;
 }
 
 .values-container.animate-out {
-    animation: slideOutToLeft 3.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: fadeOutSimple 1s ease-in forwards;
 }
 
-@keyframes slideInFromLeft {
+@keyframes fadeInSimple {
     0% {
         opacity: 0;
-        transform: translateX(-100vw);
-    }
-    15% {
-        opacity: 0;
-        transform: translateX(-80vw);
+        transform: translateX(0);
     }
     100% {
         opacity: 1;
@@ -3313,14 +3305,14 @@ body::before {
     }
 }
 
-@keyframes slideOutToLeft {
+@keyframes fadeOutSimple {
     0% {
         opacity: 1;
         transform: translateX(0);
     }
     100% {
         opacity: 0;
-        transform: translateX(-100vw);
+        transform: translateX(0);
     }
 }
 
@@ -3785,7 +3777,7 @@ body::before {
     
     .audience-card-title {
         margin-right: 0;
-        margin-left: 4rem;
+        margin-left: 0;
     }
 }
 
@@ -3875,7 +3867,7 @@ body::before {
 
 .audience-title {
     font-family: 'Orbitron', 'Rajdhani', sans-serif;
-    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-size: clamp(1.5rem, 2vw, 1.875rem);
     font-weight: 800;
     text-align: center;
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 50%, #6ba869 100%);

@@ -156,87 +156,26 @@ function updateBaseAcademyProgress() {
 function initLKNavigation() {
     const navItems = document.querySelectorAll('.lk-nav-item');
     const sections = document.querySelectorAll('.lk-section');
-    const sidebarToggle = document.querySelector('.lk-sidebar-toggle');
-    const sidebar = document.querySelector('.lk-sidebar');
-    const mobileMenuBtn = document.querySelector('.lk-mobile-menu-btn');
-    const overlay = document.querySelector('.lk-sidebar-overlay');
-
-    // Функция открытия/закрытия меню
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        if (overlay) {
-            overlay.classList.toggle('active');
-        }
-        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
-    }
-
-    // Функция закрытия меню
-    function closeSidebar() {
-        sidebar.classList.remove('active');
-        if (overlay) {
-            overlay.classList.remove('active');
-        }
-        document.body.style.overflow = '';
-    }
 
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const targetSection = this.getAttribute('data-section');
 
+            if (!targetSection) return; // For links without data-section (e.g. Home)
+
             navItems.forEach(ni => ni.classList.remove('active'));
             sections.forEach(s => s.classList.remove('active'));
 
             this.classList.add('active');
-            document.getElementById(`${targetSection}-section`).classList.add('active');
+            const targetElement = document.getElementById(`${targetSection}-section`);
+            if (targetElement) {
+                targetElement.classList.add('active');
+            }
             
-            // На мобильных закрываем сайдбар
-            if (window.innerWidth <= 1024) {
-                closeSidebar();
-            }
+            // Scroll to top on mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-    });
-
-    // Переключение сайдбара через кнопку в сайдбаре
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeSidebar();
-        });
-    }
-
-    // Переключение сайдбара через мобильную кнопку
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleSidebar();
-        });
-    }
-
-    // Закрытие сайдбара при клике на overlay
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            closeSidebar();
-        });
-    }
-
-    // Закрытие сайдбара при клике вне его на мобильных
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 1024) {
-            if (!sidebar.contains(e.target) && 
-                !e.target.closest('.lk-sidebar-toggle') && 
-                !e.target.closest('.lk-mobile-menu-btn') &&
-                sidebar.classList.contains('active')) {
-                closeSidebar();
-            }
-        }
-    });
-
-    // Закрытие меню при изменении размера окна (если перешли на десктоп)
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 1024) {
-            closeSidebar();
-        }
     });
 }
 
