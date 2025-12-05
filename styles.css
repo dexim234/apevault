@@ -10926,6 +10926,9 @@ body::before {
     padding-bottom: 5rem;
     background: var(--dark);
     overflow-x: hidden;
+    overflow-y: visible;
+    height: auto;
+    min-height: auto;
 }
 
 .roadmap-container {
@@ -10934,6 +10937,8 @@ body::before {
     position: relative;
     z-index: 2;
     overflow: visible;
+    height: auto;
+    min-height: auto;
 }
 
 .roadmap-title {
@@ -11050,6 +11055,8 @@ body::before {
     gap: 3rem;
     padding-left: 50px;
     overflow: visible;
+    height: auto;
+    min-height: auto;
 }
 
 .roadmap-pro.active,
@@ -11532,6 +11539,17 @@ body::before {
         scroll-margin-top: 0;
         scroll-snap-align: none;
         overflow-x: hidden;
+        overflow-y: visible;
+        height: auto;
+        min-height: auto;
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .roadmap-container {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
     }
 
     .roadmap-academy-switcher {
@@ -11614,6 +11632,17 @@ body::before {
         scroll-margin-top: 0;
         scroll-snap-align: none;
         overflow-x: hidden;
+        overflow-y: visible;
+        height: auto;
+        min-height: auto;
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .roadmap-container {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
     }
 
     .roadmap-academy-switcher {
@@ -12103,6 +12132,12 @@ body::before {
     z-index: 1;
     display: flex;
     flex-direction: column;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.pool-modal-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 @keyframes poolModalAppear {
@@ -12160,6 +12195,7 @@ body::before {
 
 .pool-modal-header {
     margin-bottom: 30px;
+    margin-top: 20px;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -12188,6 +12224,12 @@ body::before {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.pool-modal-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .pool-amount-options {
