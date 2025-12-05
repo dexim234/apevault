@@ -149,10 +149,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 const target = document.querySelector(href);
                 if (target) {
                     e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    
+                    // Для мобильных и планшетов используем более безопасный подход
+                    const isMobileOrTablet = window.innerWidth <= 1024;
+                    
+                    if (isMobileOrTablet) {
+                        // Вычисляем позицию с учетом header
+                        const header = document.querySelector('.header');
+                        const headerHeight = header ? header.offsetHeight : 0;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // На десктопе используем стандартный scrollIntoView
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             }
         });
@@ -1083,6 +1100,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to update roadmap line gradient transition point
     function updateRoadmapLineTransition() {
+        // Сохраняем текущую позицию скролла на мобильных, чтобы предотвратить автоматический скролл
+        const isMobileOrTablet = window.innerWidth <= 1024;
+        let savedScrollPosition = null;
+        if (isMobileOrTablet) {
+            savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        }
+        
         // Находим активный контейнер (PRO или BASE)
         const roadmapPro = document.querySelector('.roadmap-pro.active');
         const roadmapBase = document.querySelector('.roadmap-base.active');
@@ -1165,6 +1189,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 roadmapLine.style.setProperty('--module8-end', purpleStartPercent + '%');
             }
         }
+        
+        // Восстанавливаем позицию скролла на мобильных, чтобы предотвратить автоматический скролл
+        if (isMobileOrTablet && savedScrollPosition !== null) {
+            requestAnimationFrame(() => {
+                window.scrollTo(0, savedScrollPosition);
+            });
+        }
     }
     
     // Roadmap toggle lessons
@@ -1194,11 +1225,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update roadmap line transition on load and resize
     if (document.querySelector('.roadmap-line')) {
         // Initial update after DOM is ready
-        setTimeout(updateRoadmapLineTransition, 100);
+        setTimeout(() => {
+            const isMobileOrTablet = window.innerWidth <= 1024;
+            let savedScrollPosition = null;
+            if (isMobileOrTablet) {
+                savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            }
+            
+            updateRoadmapLineTransition();
+            
+            if (isMobileOrTablet && savedScrollPosition !== null) {
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, savedScrollPosition);
+                });
+            }
+        }, 100);
         
         // Also update after page load (for images and other resources)
         window.addEventListener('load', () => {
-            setTimeout(updateRoadmapLineTransition, 200);
+            setTimeout(() => {
+                const isMobileOrTablet = window.innerWidth <= 1024;
+                let savedScrollPosition = null;
+                if (isMobileOrTablet) {
+                    savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                }
+                
+                updateRoadmapLineTransition();
+                
+                if (isMobileOrTablet && savedScrollPosition !== null) {
+                    requestAnimationFrame(() => {
+                        window.scrollTo(0, savedScrollPosition);
+                    });
+                }
+            }, 200);
         });
         
         // Update on resize with debounce
@@ -1212,8 +1271,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const roadmapObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
+                    // Сохраняем позицию скролла на мобильных перед обновлением
+                    const isMobileOrTablet = window.innerWidth <= 1024;
+                    let savedScrollPosition = null;
+                    if (isMobileOrTablet) {
+                        savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                    }
+                    
                     requestAnimationFrame(() => {
-                        setTimeout(updateRoadmapLineTransition, 200);
+                        setTimeout(() => {
+                            updateRoadmapLineTransition();
+                            
+                            // Восстанавливаем позицию скролла на мобильных после обновления
+                            if (isMobileOrTablet && savedScrollPosition !== null) {
+                                requestAnimationFrame(() => {
+                                    window.scrollTo(0, savedScrollPosition);
+                                });
+                            }
+                        }, 200);
                     });
                     roadmapObserver.unobserve(entry.target);
                 }
@@ -1456,6 +1531,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 switchButtons.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
 
+                // Сохраняем позицию скролла на мобильных перед переключением
+                const isMobileOrTablet = window.innerWidth <= 1024;
+                let savedScrollPosition = null;
+                if (isMobileOrTablet) {
+                    savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                }
+                
                 // Переключаем видимость академий
                 if (academy === 'pro') {
                     if (roadmapPro) roadmapPro.classList.add('active');
@@ -1463,6 +1545,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (academy === 'base') {
                     if (roadmapPro) roadmapPro.classList.remove('active');
                     if (roadmapBase) roadmapBase.classList.add('active');
+                }
+                
+                // Восстанавливаем позицию скролла на мобильных после переключения
+                if (isMobileOrTablet && savedScrollPosition !== null) {
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            window.scrollTo(0, savedScrollPosition);
+                        });
+                    });
                 }
 
                 // Обновляем подзаголовок

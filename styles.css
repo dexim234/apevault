@@ -11531,6 +11531,8 @@ body::before {
         padding: 0 1.5rem;
         padding-top: 3.75rem;
         padding-bottom: 3rem;
+        scroll-margin-top: 0;
+        scroll-snap-align: none;
     }
 
     .roadmap-academy-switcher {
@@ -11610,6 +11612,8 @@ body::before {
         padding: 0 1rem;
         padding-top: 3.75rem;
         padding-bottom: 3rem;
+        scroll-margin-top: 0;
+        scroll-snap-align: none;
     }
 
     .roadmap-academy-switcher {
