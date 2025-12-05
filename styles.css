@@ -5734,36 +5734,71 @@ body::before {
 }
 
 .wallet-category-card {
-    background: linear-gradient(135deg, 
-        rgba(20, 20, 20, 0.95) 0%, 
-        rgba(15, 15, 15, 0.9) 100%);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1.5px solid rgba(69, 111, 68, 0.4);
+    position: relative;
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(90, 143, 88, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 2px solid rgba(69, 111, 68, 0.5);
     border-radius: 24px;
     padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(69, 111, 68, 0.15) inset;
-    position: relative;
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(69, 111, 68, 0.2) inset;
     overflow: hidden;
 }
 
 .wallet-category-card::before {
     content: '';
     position: absolute;
+    inset: -3px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.2) 30%,
+        rgba(107, 168, 105, 0.25) 60%,
+        rgba(90, 143, 88, 0.2) 100%);
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: gradientShift 4s ease infinite;
+    z-index: 0;
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.wallet-category-card::after {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(69, 111, 68, 0.08) 0%, 
-        rgba(69, 111, 68, 0.03) 50%,
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(69, 111, 68, 0.7) 30%,
+        rgba(90, 143, 88, 0.9) 50%,
+        rgba(69, 111, 68, 0.7) 70%,
         transparent 100%);
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 1;
 }
 
 .wallet-category-card > * {
@@ -5772,12 +5807,22 @@ body::before {
 }
 
 .wallet-category-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--primary-green);
+    transform: translateY(-12px) scale(1.03);
+    border-color: rgba(90, 143, 88, 0.6);
     box-shadow: 
-        0 16px 48px rgba(69, 111, 68, 0.3),
-        0 0 0 1px rgba(69, 111, 68, 0.3) inset,
-        0 0 40px rgba(69, 111, 68, 0.2);
+        0 24px 64px rgba(69, 111, 68, 0.4),
+        0 0 0 2px rgba(90, 143, 88, 0.4) inset,
+        0 0 60px rgba(69, 111, 68, 0.3);
+}
+
+.wallet-category-card:hover::before {
+    opacity: 0.4;
+    animation: gradientShift 3s ease infinite;
+}
+
+.wallet-category-card:hover::after {
+    opacity: 1;
+    height: 4px;
 }
 
 .wallet-category-title {
@@ -5822,41 +5867,49 @@ body::before {
 
 .wallet-item {
     position: relative;
-    background: linear-gradient(135deg, 
-        rgba(20, 20, 20, 0.95) 0%, 
-        rgba(15, 15, 15, 0.9) 100%);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1.5px solid rgba(69, 111, 68, 0.4);
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(90, 143, 88, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 2px solid rgba(69, 111, 68, 0.5);
     border-radius: 20px;
     padding: 1.75rem 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.25rem;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(69, 111, 68, 0.15) inset,
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        0 0 0 1px rgba(69, 111, 68, 0.2) inset;
     min-width: 0;
 }
 
 .wallet-item::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: -2px;
+    border-radius: 20px;
     background: linear-gradient(135deg, 
-        rgba(69, 111, 68, 0.08) 0%, 
-        rgba(69, 111, 68, 0.03) 50%,
-        transparent 100%);
-    opacity: 0.6;
-    pointer-events: none;
+        rgba(69, 111, 68, 0.25) 0%, 
+        rgba(90, 143, 88, 0.15) 30%,
+        rgba(107, 168, 105, 0.2) 60%,
+        rgba(90, 143, 88, 0.15) 100%);
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: gradientShift 4s ease infinite;
     z-index: 0;
+    filter: blur(15px);
+    pointer-events: none;
 }
 
 .wallet-item > * {
@@ -5882,23 +5935,17 @@ body::before {
 }
 
 .wallet-item:hover {
-    transform: translateY(-4px) scale(1.02);
-    border-color: var(--primary-green);
+    transform: translateY(-8px) scale(1.03);
+    border-color: rgba(90, 143, 88, 0.6);
     box-shadow: 
-        0 16px 48px rgba(69, 111, 68, 0.3),
-        0 0 0 1px rgba(69, 111, 68, 0.3) inset,
-        0 0 40px rgba(69, 111, 68, 0.2);
-    background: linear-gradient(135deg, 
-        rgba(25, 25, 25, 0.95) 0%, 
-        rgba(20, 20, 20, 0.85) 100%);
+        0 20px 56px rgba(69, 111, 68, 0.4),
+        0 0 0 2px rgba(90, 143, 88, 0.4) inset,
+        0 0 50px rgba(69, 111, 68, 0.3);
 }
 
 .wallet-item:hover::after {
-    opacity: 1;
-    background: linear-gradient(135deg, 
-        rgba(69, 111, 68, 0.15) 0%, 
-        rgba(69, 111, 68, 0.08) 50%,
-        rgba(69, 111, 68, 0.03) 100%);
+    opacity: 0.35;
+    animation: gradientShift 3s ease infinite;
 }
 
 .wallet-item:hover::before {
@@ -10908,10 +10955,74 @@ body::before {
     font-size: clamp(1.125rem, 1.6vw, 1.375rem);
     color: rgba(255, 255, 255, 0.75);
     text-align: center;
-    margin: 0 0 3rem 0;
+    margin: 0 0 2rem 0;
     font-weight: 400;
     line-height: 1.6;
     letter-spacing: -0.2px;
+}
+
+/* Переключатель академий */
+.roadmap-academy-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto 2rem auto;
+    max-width: 500px;
+    background: rgba(20, 20, 20, 0.6);
+    padding: 0.5rem;
+    border-radius: 16px;
+    border: 2px solid rgba(69, 111, 68, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.academy-switch-btn {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.academy-switch-btn i {
+    font-size: 1.125rem;
+}
+
+.academy-switch-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(69, 111, 68, 0.1);
+}
+
+.academy-switch-btn.active {
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.2) 100%);
+    color: var(--primary-green-light);
+    box-shadow: 
+        0 4px 12px rgba(69, 111, 68, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Скрытие/показ академий */
+.roadmap-pro,
+.roadmap-base {
+    display: none !important;
+}
+
+.roadmap-pro.active,
+.roadmap-base.active {
+    display: flex !important;
+    flex-direction: column;
 }
 
 .roadmap-note-card {
@@ -10935,10 +11046,20 @@ body::before {
     position: relative;
     max-width: 1100px;
     margin: 0 auto;
+    gap: 3rem;
+    padding-left: 50px;
+}
+
+.roadmap-pro.active,
+.roadmap-base.active {
+    display: flex !important;
+    flex-direction: column;
+}
+
+#base-academy-modules-container {
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    padding-left: 50px;
 }
 
 .roadmap-line {
@@ -10948,16 +11069,33 @@ body::before {
     width: 4px;
     height: 100%;
     border-radius: 2px;
+    z-index: 0;
+}
+
+/* Линия для PRO академии (17 модулей: зеленые 1-5, желтые 6-12, фиолетовые 13-17) */
+.roadmap-pro .roadmap-line {
     background: linear-gradient(180deg, 
         var(--primary-green) 0%, 
-        var(--primary-green) calc(var(--module6-end, 37%) - 0.5%),
-        rgba(69, 111, 68, 0.9) calc(var(--module6-end, 37%) - 0.25%),
-        rgba(212, 175, 55, 0.7) var(--module6-end, 38%),
-        rgba(212, 175, 55, 0.8) calc(var(--module11-end, 69.5%) - 0.5%),
-        rgba(212, 175, 55, 0.7) calc(var(--module11-end, 69.5%) - 0.25%),
-        rgba(157, 111, 217, 0.7) var(--module11-end, 69.5%),
+        var(--primary-green) calc(var(--module5-end, 30%) - 0.5%),
+        rgba(69, 111, 68, 0.9) calc(var(--module5-end, 30%) - 0.25%),
+        rgba(212, 175, 55, 0.7) var(--module5-end, 30%),
+        rgba(212, 175, 55, 0.8) calc(var(--module12-end, 70%) - 0.5%),
+        rgba(212, 175, 55, 0.7) calc(var(--module12-end, 70%) - 0.25%),
+        rgba(157, 111, 217, 0.7) var(--module12-end, 70%),
         rgba(157, 111, 217, 0.8) 100%);
-    z-index: 0;
+}
+
+/* Линия для BASE академии (12 модулей: зеленые 1-4, желтые 5-8, фиолетовые 9-12) */
+.roadmap-base .roadmap-line {
+    background: linear-gradient(180deg, 
+        var(--primary-green) 0%, 
+        var(--primary-green) calc(var(--module4-end, 33%) - 0.5%),
+        rgba(69, 111, 68, 0.9) calc(var(--module4-end, 33%) - 0.25%),
+        rgba(212, 175, 55, 0.7) var(--module4-end, 33%),
+        rgba(212, 175, 55, 0.8) calc(var(--module8-end, 67%) - 0.5%),
+        rgba(212, 175, 55, 0.7) calc(var(--module8-end, 67%) - 0.25%),
+        rgba(157, 111, 217, 0.7) var(--module8-end, 67%),
+        rgba(157, 111, 217, 0.8) 100%);
 }
 
 .roadmap-module {
@@ -10965,83 +11103,254 @@ body::before {
     padding: 2rem 2.5rem;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    background: rgba(15, 15, 15, 0.9);
     z-index: 1;
     border: 2px solid transparent;
-    transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    backdrop-filter: blur(10px);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    overflow: visible;
 }
 
-.roadmap-module:hover {
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+.roadmap-module::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 20px;
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: gradientShift 4s ease infinite;
+    z-index: 0;
+    filter: blur(20px);
+    pointer-events: none;
 }
 
+.roadmap-module::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 1;
+}
+
+.roadmap-module > * {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* Зеленые модули */
 .roadmap-module-green {
-    border-color: var(--primary-green);
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(90, 143, 88, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    border-color: rgba(69, 111, 68, 0.5);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(69, 111, 68, 0.2) inset;
 }
 
-.roadmap-module-green:hover {
-    border-color: var(--primary-green-light);
-    box-shadow: 0 12px 48px rgba(69, 111, 68, 0.3);
+.roadmap-module-green::before {
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.2) 30%,
+        rgba(107, 168, 105, 0.25) 60%,
+        rgba(90, 143, 88, 0.2) 100%);
 }
 
+.roadmap-module-green::after {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(69, 111, 68, 0.7) 30%,
+        rgba(90, 143, 88, 0.9) 50%,
+        rgba(69, 111, 68, 0.7) 70%,
+        transparent 100%);
+}
+
+
+/* Желтые модули */
 .roadmap-module-yellow {
-    border-color: rgba(212, 175, 55, 0.6);
+    background: 
+        radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(230, 190, 70, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(212, 175, 55, 0.2) inset;
 }
 
-.roadmap-module-yellow:hover {
-    border-color: rgba(212, 175, 55, 0.9);
-    box-shadow: 0 12px 48px rgba(212, 175, 55, 0.2);
+.roadmap-module-yellow::before {
+    background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.3) 0%, 
+        rgba(230, 190, 70, 0.2) 30%,
+        rgba(245, 205, 85, 0.25) 60%,
+        rgba(230, 190, 70, 0.2) 100%);
 }
 
+.roadmap-module-yellow::after {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(212, 175, 55, 0.7) 30%,
+        rgba(230, 190, 70, 0.9) 50%,
+        rgba(212, 175, 55, 0.7) 70%,
+        transparent 100%);
+}
+
+
+/* Фиолетовые модули */
 .roadmap-module-purple {
-    border-color: rgba(157, 111, 217, 0.6);
+    background: 
+        radial-gradient(ellipse at top left, rgba(157, 111, 217, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(175, 130, 235, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    border-color: rgba(157, 111, 217, 0.5);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(157, 111, 217, 0.2) inset;
 }
 
-.roadmap-module-purple:hover {
-    border-color: rgba(157, 111, 217, 0.9);
-    box-shadow: 0 12px 48px rgba(157, 111, 217, 0.2);
+.roadmap-module-purple::before {
+    background: linear-gradient(135deg, 
+        rgba(157, 111, 217, 0.3) 0%, 
+        rgba(175, 130, 235, 0.2) 30%,
+        rgba(193, 149, 253, 0.25) 60%,
+        rgba(175, 130, 235, 0.2) 100%);
 }
+
+.roadmap-module-purple::after {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(157, 111, 217, 0.7) 30%,
+        rgba(175, 130, 235, 0.9) 50%,
+        rgba(157, 111, 217, 0.7) 70%,
+        transparent 100%);
+}
+
 
 .roadmap-marker {
     position: absolute;
     left: -33px;
     top: 50%;
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    animation: roadmapPulse 2s ease-in-out infinite;
+    animation: pulse 2s infinite;
     z-index: 2;
-    box-shadow: 0 0 15px currentColor;
-    transition: none;
-    will-change: transform;
 }
 
 .roadmap-marker-green {
     background-color: var(--primary-green);
-    color: var(--primary-green);
 }
 
 .roadmap-marker-yellow {
     background-color: rgba(212, 175, 55, 0.9);
-    color: rgba(212, 175, 55, 0.9);
 }
 
 .roadmap-marker-purple {
     background-color: rgba(157, 111, 217, 0.9);
-    color: rgba(157, 111, 217, 0.9);
 }
 
-@keyframes roadmapPulse {
-    0%, 100% {
-        transform: scale(0.9) translateY(-50%);
-        opacity: 0.8;
+@keyframes pulse {
+    0% {
+        transform: scale(0.8) translateY(-50%);
+        opacity: 0.7;
     }
     50% {
-        transform: scale(1.3) translateY(-50%);
+        transform: scale(1.2) translateY(-50%);
         opacity: 1;
     }
+    100% {
+        transform: scale(0.8) translateY(-50%);
+        opacity: 0.7;
+    }
+}
+
+/* Уголки для модулей */
+.roadmap-module-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.roadmap-module-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    opacity: 0.3;
+    z-index: 1;
+    background: transparent;
+}
+
+.roadmap-module-green .roadmap-module-corner {
+    border: 2px solid var(--primary-green);
+}
+
+.roadmap-module-yellow .roadmap-module-corner {
+    border: 2px solid rgba(212, 175, 55, 0.9);
+}
+
+.roadmap-module-purple .roadmap-module-corner {
+    border: 2px solid rgba(157, 111, 217, 0.9);
+}
+
+.roadmap-module-corner-tl {
+    top: 20px;
+    left: 20px;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-radius: 16px 0 0 0;
+}
+
+.roadmap-module-corner-tr {
+    top: 20px;
+    right: 20px;
+    border-left: none !important;
+    border-bottom: none !important;
+    border-radius: 0 16px 0 0;
+}
+
+.roadmap-module-corner-bl {
+    bottom: 20px;
+    left: 20px;
+    border-right: none !important;
+    border-top: none !important;
+    border-radius: 0 0 0 16px;
+}
+
+.roadmap-module-corner-br {
+    bottom: 20px;
+    right: 20px;
+    border-left: none !important;
+    border-top: none !important;
+    border-radius: 0 0 16px 0;
 }
 
 .roadmap-module-icon {
@@ -11152,8 +11461,23 @@ body::before {
 
 /* Responsive Roadmap */
 @media (max-width: 1024px) {
+    .roadmap-academy-switcher {
+        max-width: 450px;
+        gap: 0.75rem;
+        padding: 0.4375rem;
+    }
+
+    .academy-switch-btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9375rem;
+    }
+
     .roadmap {
         padding-left: 40px;
+        gap: 2.5rem;
+    }
+    
+    #base-academy-modules-container {
         gap: 2.5rem;
     }
     
@@ -11171,6 +11495,31 @@ body::before {
     .roadmap-module {
         padding: 1.75rem 2rem;
     }
+    
+    .roadmap-module-corner {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .roadmap-module-corner-tl {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .roadmap-module-corner-tr {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .roadmap-module-corner-bl {
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .roadmap-module-corner-br {
+        bottom: 15px;
+        right: 15px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -11179,9 +11528,30 @@ body::before {
         padding-top: 3.75rem;
         padding-bottom: 3rem;
     }
+
+    .roadmap-academy-switcher {
+        max-width: 100%;
+        gap: 0.5rem;
+        padding: 0.375rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .academy-switch-btn {
+        padding: 0.625rem 1rem;
+        font-size: 0.875rem;
+        gap: 0.375rem;
+    }
+
+    .academy-switch-btn i {
+        font-size: 1rem;
+    }
     
     .roadmap {
         padding-left: 30px;
+        gap: 2rem;
+    }
+    
+    #base-academy-modules-container {
         gap: 2rem;
     }
     
@@ -11200,6 +11570,31 @@ body::before {
         padding: 1.5rem 1.5rem;
     }
     
+    .roadmap-module-corner {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .roadmap-module-corner-tl {
+        top: 12px;
+        left: 12px;
+    }
+    
+    .roadmap-module-corner-tr {
+        top: 12px;
+        right: 12px;
+    }
+    
+    .roadmap-module-corner-bl {
+        bottom: 12px;
+        left: 12px;
+    }
+    
+    .roadmap-module-corner-br {
+        bottom: 12px;
+        right: 12px;
+    }
+    
     .roadmap-note-card {
         padding: 1rem 1.25rem;
         font-size: 0.875rem;
@@ -11212,9 +11607,28 @@ body::before {
         padding-top: 3.75rem;
         padding-bottom: 3rem;
     }
+
+    .roadmap-academy-switcher {
+        gap: 0.375rem;
+        padding: 0.3125rem;
+    }
+
+    .academy-switch-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8125rem;
+        gap: 0.25rem;
+    }
+
+    .academy-switch-btn i {
+        font-size: 0.9375rem;
+    }
     
     .roadmap {
         padding-left: 25px;
+        gap: 1.5rem;
+    }
+    
+    #base-academy-modules-container {
         gap: 1.5rem;
     }
     
@@ -11230,6 +11644,31 @@ body::before {
     
     .roadmap-module {
         padding: 1.25rem 1.25rem;
+    }
+    
+    .roadmap-module-corner {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .roadmap-module-corner-tl {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .roadmap-module-corner-tr {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .roadmap-module-corner-bl {
+        bottom: 10px;
+        left: 10px;
+    }
+    
+    .roadmap-module-corner-br {
+        bottom: 10px;
+        right: 10px;
     }
     
     .roadmap-module-icon {
@@ -11600,6 +12039,313 @@ body::before {
     /* Prevent transforms from causing overflow */
     * {
         box-sizing: border-box;
+    }
+}
+
+/* Pool Amount Modal Styles */
+.pool-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pool-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.pool-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, 
+        rgba(69, 111, 68, 0.15) 0%, 
+        rgba(0, 0, 0, 0.95) 70%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.pool-modal-content {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    background: linear-gradient(135deg, 
+        rgba(18, 20, 18, 0.98) 0%, 
+        rgba(12, 15, 12, 0.96) 50%,
+        rgba(18, 20, 18, 0.98) 100%);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 2px solid rgba(69, 111, 68, 0.35);
+    border-radius: 24px;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(69, 111, 68, 0.25) inset,
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 60px rgba(69, 111, 68, 0.15);
+    padding: 40px;
+    overflow: hidden;
+    animation: poolModalAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+}
+
+@keyframes poolModalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.pool-modal-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        transparent 25%,
+        transparent 75%,
+        rgba(69, 111, 68, 0.3) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pool-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(69, 111, 68, 0.2);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.pool-modal-close:hover {
+    background: rgba(69, 111, 68, 0.4);
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.pool-modal-header {
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.pool-modal-header h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pool-modal-header p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.pool-modal-body {
+    position: relative;
+    z-index: 1;
+}
+
+.pool-amount-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.pool-amount-btn {
+    padding: 16px 20px;
+    background: rgba(69, 111, 68, 0.1);
+    border: 2px solid rgba(69, 111, 68, 0.3);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pool-amount-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.2) 0%, 
+        rgba(69, 111, 68, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pool-amount-btn:hover {
+    border-color: rgba(69, 111, 68, 0.6);
+    background: rgba(69, 111, 68, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(69, 111, 68, 0.3);
+}
+
+.pool-amount-btn:hover::before {
+    opacity: 1;
+}
+
+.pool-amount-btn.active {
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.4) 0%, 
+        rgba(69, 111, 68, 0.3) 100%);
+    border-color: rgba(69, 111, 68, 0.8);
+    color: #fff;
+    box-shadow: 
+        0 0 20px rgba(69, 111, 68, 0.4),
+        inset 0 0 20px rgba(69, 111, 68, 0.1);
+}
+
+.pool-custom-amount {
+    margin-bottom: 30px;
+}
+
+.pool-custom-amount label {
+    display: block;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.pool-custom-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pool-custom-input {
+    width: 100%;
+    padding: 16px 50px 16px 20px;
+    background: rgba(69, 111, 68, 0.1);
+    border: 2px solid rgba(69, 111, 68, 0.3);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pool-custom-input:focus {
+    outline: none;
+    border-color: rgba(69, 111, 68, 0.6);
+    background: rgba(69, 111, 68, 0.15);
+    box-shadow: 0 0 0 3px rgba(69, 111, 68, 0.2);
+}
+
+.pool-custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.pool-currency {
+    position: absolute;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.pool-modal-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.pool-confirm-btn {
+    padding: 16px 48px;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.8) 0%, 
+        rgba(69, 111, 68, 0.6) 100%);
+    border: 2px solid rgba(69, 111, 68, 0.8);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.pool-confirm-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 1) 0%, 
+        rgba(69, 111, 68, 0.8) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(69, 111, 68, 0.4);
+}
+
+.pool-confirm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive styles for pool modal */
+@media (max-width: 768px) {
+    .pool-modal-content {
+        padding: 30px 20px;
+        max-width: 100%;
+    }
+
+    .pool-amount-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .pool-amount-btn {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+
+    .pool-modal-header h3 {
+        font-size: 24px;
+    }
+
+    .pool-confirm-btn {
+        width: 100%;
+        padding: 14px 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pool-amount-options {
+        grid-template-columns: 1fr;
+    }
+
+    .pool-modal-content {
+        padding: 25px 15px;
     }
 }
 

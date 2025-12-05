@@ -1561,11 +1561,66 @@
 .lk-section {
     display: none;
     animation: fadeIn 0.4s ease;
-    padding-top: 1rem;
+    padding-top: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .lk-section.active {
     display: block;
+}
+
+/* Специальные отступы для секций академий */
+#base-academy-section,
+#pro-academy-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#base-academy-section .lk-academy-modules,
+#pro-academy-section .lk-academy-modules {
+    max-width: 100%;
+}
+
+#base-academy-section .lk-pro-academy-note {
+    max-width: 100%;
+}
+
+/* Адаптация отступов для секций академий на мобильных */
+@media (max-width: 1024px) {
+    #base-academy-section,
+    #pro-academy-section {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .lk-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    #base-academy-section,
+    #pro-academy-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lk-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #base-academy-section,
+    #pro-academy-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 .lk-section-header {
@@ -1574,6 +1629,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 2.5rem;
+    margin-top: 1rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -1971,6 +2027,332 @@
     font-weight: 600;
 }
 
+/* PRO Academy Note Card */
+.lk-pro-academy-note {
+    position: relative;
+    margin-bottom: 3rem;
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(90, 143, 88, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(15, 15, 15, 0.98) 0%, 
+            rgba(12, 12, 12, 0.95) 25%,
+            rgba(10, 10, 10, 0.97) 50%,
+            rgba(12, 12, 12, 0.95) 75%,
+            rgba(15, 15, 15, 0.98) 100%);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 2px solid rgba(69, 111, 68, 0.5);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(69, 111, 68, 0.2) inset;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lk-pro-academy-note::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.2) 30%,
+        rgba(107, 168, 105, 0.25) 60%,
+        rgba(90, 143, 88, 0.2) 100%);
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: gradientShift 4s ease infinite;
+    z-index: 0;
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+.lk-pro-academy-note::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(69, 111, 68, 0.7) 30%,
+        rgba(90, 143, 88, 0.9) 50%,
+        rgba(69, 111, 68, 0.7) 70%,
+        transparent 100%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 1;
+}
+
+.lk-pro-academy-note:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(90, 143, 88, 0.6);
+    box-shadow: 
+        0 24px 64px rgba(69, 111, 68, 0.4),
+        0 0 0 2px rgba(90, 143, 88, 0.4) inset,
+        0 0 60px rgba(69, 111, 68, 0.3);
+}
+
+.lk-pro-academy-note:hover::before {
+    opacity: 0.4;
+    animation: gradientShift 3s ease infinite;
+}
+
+.lk-pro-academy-note:hover::after {
+    opacity: 1;
+    height: 4px;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.lk-pro-note-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.lk-pro-note-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.2) 100%);
+    border: 2px solid rgba(69, 111, 68, 0.5);
+    border-radius: 16px;
+    color: var(--primary-green);
+    font-size: 1.75rem;
+    box-shadow: 
+        0 4px 16px rgba(69, 111, 68, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+}
+
+.lk-pro-academy-note:hover .lk-pro-note-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 
+        0 6px 20px rgba(69, 111, 68, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.lk-pro-note-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    background: linear-gradient(135deg, 
+        #fff 0%, 
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(90, 143, 88, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+}
+
+.lk-pro-note-content {
+    position: relative;
+    z-index: 1;
+}
+
+.lk-pro-note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.lk-pro-note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(20, 20, 20, 0.6) 0%, 
+            rgba(15, 15, 15, 0.5) 100%);
+    border: 1.5px solid rgba(69, 111, 68, 0.3);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lk-pro-note-item:hover {
+    transform: translateY(-4px) translateX(4px);
+    border-color: rgba(69, 111, 68, 0.6);
+    background: 
+        radial-gradient(ellipse at top left, rgba(69, 111, 68, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(25, 25, 25, 0.7) 0%, 
+            rgba(20, 20, 20, 0.6) 100%);
+    box-shadow: 
+        0 8px 24px rgba(69, 111, 68, 0.3),
+        0 0 0 1px rgba(69, 111, 68, 0.2) inset;
+}
+
+.lk-pro-note-item-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.2) 0%, 
+        rgba(90, 143, 88, 0.15) 100%);
+    border: 1.5px solid rgba(69, 111, 68, 0.4);
+    border-radius: 12px;
+    color: var(--primary-green);
+    font-size: 1.25rem;
+    transition: all 0.4s ease;
+}
+
+.lk-pro-note-item:hover .lk-pro-note-item-icon {
+    transform: scale(1.15) rotate(-5deg);
+    background: linear-gradient(135deg, 
+        rgba(69, 111, 68, 0.3) 0%, 
+        rgba(90, 143, 88, 0.25) 100%);
+    border-color: rgba(90, 143, 88, 0.6);
+    box-shadow: 0 4px 12px rgba(69, 111, 68, 0.3);
+}
+
+.lk-pro-note-item-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lk-pro-note-item-text strong {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.lk-pro-note-item-text span {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+/* Адаптация для планшетов */
+@media (max-width: 1024px) {
+    .lk-pro-academy-note {
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .lk-pro-note-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .lk-pro-note-item {
+        padding: 1.25rem;
+    }
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .lk-pro-academy-note {
+        padding: 1.75rem 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 20px;
+    }
+
+    .lk-pro-note-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .lk-pro-note-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+    }
+
+    .lk-pro-note-title {
+        font-size: 1.5rem;
+    }
+
+    .lk-pro-note-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .lk-pro-note-item {
+        padding: 1.25rem;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .lk-pro-note-item-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.125rem;
+    }
+
+    .lk-pro-note-item-text strong {
+        font-size: 1rem;
+    }
+
+    .lk-pro-note-item-text span {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lk-pro-academy-note {
+        padding: 1.5rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .lk-pro-note-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .lk-pro-note-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.375rem;
+    }
+
+    .lk-pro-note-title {
+        font-size: 1.375rem;
+    }
+
+    .lk-pro-note-item {
+        padding: 1rem;
+        gap: 0.875rem;
+    }
+
+    .lk-pro-note-item-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
 .lk-academy-modules {
     display: flex;
     flex-direction: column;
@@ -2139,6 +2521,82 @@
 .lk-lesson-locked-hint i {
     font-size: 1rem;
     flex-shrink: 0;
+}
+
+/* Адаптация карточки урока для мобильных устройств */
+@media (max-width: 768px) {
+    .lk-lesson-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem;
+    }
+
+    .lk-lesson-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .lk-lesson-title {
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+        order: 1;
+    }
+
+    .lk-lesson-status {
+        width: 100%;
+        order: 2;
+        font-size: 0.875rem;
+        margin-top: 0;
+    }
+
+    .lk-lesson-actions {
+        margin-top: 1rem;
+        order: 3;
+    }
+
+    .lk-lesson-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+    }
+
+    .lk-lesson-locked-hint {
+        order: 2;
+        margin-top: 0.75rem;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .lk-lesson-card {
+        padding: 1rem;
+    }
+
+    .lk-lesson-header {
+        gap: 0.375rem;
+        margin-bottom: 0.875rem;
+    }
+
+    .lk-lesson-title {
+        font-size: 0.9375rem;
+    }
+
+    .lk-lesson-status {
+        font-size: 0.8125rem;
+    }
+
+    .lk-lesson-actions {
+        margin-top: 0.875rem;
+    }
+
+    .lk-lesson-btn {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+    }
 }
 
 /* ===== МЕРОПРИЯТИЯ ===== */
@@ -2914,6 +3372,330 @@
 .lk-material-mark-viewed:hover {
     background: rgba(69, 111, 68, 0.2);
     border-color: var(--primary-green);
+}
+
+/* Адаптация модального окна урока для мобильных устройств */
+@media (max-width: 768px) {
+    .lk-modal {
+        padding: 1rem;
+    }
+
+    .lk-modal-content {
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 20px;
+    }
+
+    .lk-modal-close {
+        top: 1rem;
+        right: 1rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .lk-modal-body {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .lk-lesson-content-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .lk-lesson-content-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .lk-lesson-content-meta {
+        gap: 1rem;
+        font-size: 0.875rem;
+    }
+
+    .lk-lesson-content-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .lk-lesson-content-section-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .lk-lesson-video {
+        font-size: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .lk-lesson-materials {
+        padding: 1.25rem;
+    }
+
+    .lk-material-item {
+        padding: 0.875rem;
+    }
+
+    .lk-material-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .lk-material-name {
+        font-size: 0.9375rem;
+    }
+
+    .lk-material-size {
+        font-size: 0.8125rem;
+    }
+
+    .lk-material-download {
+        padding: 0.4375rem 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .lk-homework-section {
+        padding: 1.5rem;
+    }
+
+    .lk-homework-title {
+        font-size: 1.25rem;
+    }
+
+    .lk-homework-description {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+
+    .lk-homework-upload {
+        padding: 1.5rem;
+    }
+
+    .lk-homework-upload-icon {
+        font-size: 2.5rem;
+    }
+
+    .lk-homework-upload-text {
+        font-size: 0.9375rem;
+    }
+
+    .lk-homework-upload-hint {
+        font-size: 0.8125rem;
+    }
+
+    .lk-homework-submit-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+
+    .lk-lesson-rules-warning,
+    .lk-video-warning {
+        padding: 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .lk-lesson-rules-warning i,
+    .lk-video-warning i {
+        font-size: 1rem;
+    }
+
+    /* Уменьшаем размеры текста в модальном окне */
+    .lk-modal-body p {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+
+    .lk-modal-body ul,
+    .lk-modal-body ol {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+
+    .lk-modal-body li {
+        font-size: 0.9375rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .lk-modal-body h1,
+    .lk-modal-body h2,
+    .lk-modal-body h3,
+    .lk-modal-body h4 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .lk-modal-body h1 {
+        font-size: 1.5rem;
+    }
+
+    .lk-modal-body h2 {
+        font-size: 1.375rem;
+    }
+
+    .lk-modal-body h3 {
+        font-size: 1.25rem;
+    }
+
+    .lk-modal-body h4 {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lk-modal {
+        padding: 0.75rem;
+    }
+
+    .lk-modal-content {
+        border-radius: 16px;
+        max-height: 98vh;
+    }
+
+    .lk-modal-close {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .lk-modal-body {
+        padding: 1.25rem 1rem;
+    }
+
+    .lk-lesson-content-header {
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.875rem;
+    }
+
+    .lk-lesson-content-title {
+        font-size: 1.25rem;
+    }
+
+    .lk-lesson-content-meta {
+        gap: 0.75rem;
+        font-size: 0.8125rem;
+    }
+
+    .lk-lesson-content-section {
+        margin-bottom: 1.25rem;
+    }
+
+    .lk-lesson-content-section-title {
+        font-size: 1.125rem;
+        margin-bottom: 0.625rem;
+    }
+
+    .lk-lesson-video {
+        font-size: 0.9375rem;
+        margin-bottom: 1rem;
+    }
+
+    .lk-lesson-materials {
+        padding: 1rem;
+    }
+
+    .lk-material-item {
+        padding: 0.75rem;
+        gap: 0.875rem;
+    }
+
+    .lk-material-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9375rem;
+    }
+
+    .lk-material-name {
+        font-size: 0.875rem;
+    }
+
+    .lk-material-size {
+        font-size: 0.75rem;
+    }
+
+    .lk-material-download {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .lk-homework-section {
+        padding: 1.25rem;
+    }
+
+    .lk-homework-title {
+        font-size: 1.125rem;
+    }
+
+    .lk-homework-description {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .lk-homework-upload {
+        padding: 1.25rem;
+    }
+
+    .lk-homework-upload-icon {
+        font-size: 2rem;
+    }
+
+    .lk-homework-upload-text {
+        font-size: 0.875rem;
+    }
+
+    .lk-homework-upload-hint {
+        font-size: 0.75rem;
+    }
+
+    .lk-homework-submit-btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    .lk-lesson-rules-warning,
+    .lk-video-warning {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .lk-lesson-rules-warning i,
+    .lk-video-warning i {
+        font-size: 0.9375rem;
+    }
+
+    /* Еще больше уменьшаем размеры текста на маленьких экранах */
+    .lk-modal-body p {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .lk-modal-body ul,
+    .lk-modal-body ol {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .lk-modal-body li {
+        font-size: 0.875rem;
+        margin-bottom: 0.375rem;
+    }
+
+    .lk-modal-body h1 {
+        font-size: 1.25rem;
+    }
+
+    .lk-modal-body h2 {
+        font-size: 1.125rem;
+    }
+
+    .lk-modal-body h3 {
+        font-size: 1rem;
+    }
+
+    .lk-modal-body h4 {
+        font-size: 0.9375rem;
+    }
 }
 
 .lk-homework-warning {

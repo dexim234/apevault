@@ -458,7 +458,7 @@
                                         <path d="M12 5l7 7-7 7"></path>
                                     </svg>
                                 </div>
-                                <h4 class="education-card-title">Базовое обучение ApeVault</h4>
+                                <h4 class="education-card-title">Base Academy ApeVault</h4>
                             </div>
                             <p class="education-card-description">
                                 Мы понимаем, что не все могут здесь и сейчас оплатить обучение, поэтому даём доступ ко многим нашим сервисам и материалам буквально бесплатно.
@@ -494,7 +494,7 @@
                                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                     </svg>
-                                    Наработка опыта самостоятельно
+                                    Наработка опыта самостоятельно, но с поддержкой сообщества
                                 </li>
                                 <li>
                                     <svg class="feature-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -510,7 +510,7 @@
                                 </li>
                             </ul>
                             <a href="#education-free" class="education-card-button education-card-button-free">
-                                Education ApeVault
+                                Base Academy 
                             </a>
                         </div>
                         
@@ -523,10 +523,10 @@
                                         <path d="M2 12l10 5 10-5"></path>
                                     </svg>
                                 </div>
-                                <h4 class="education-card-title">Академия ApeVault+</h4>
+                                <h4 class="education-card-title">PRO Academy ApeVault</h4>
                             </div>
                             <p class="education-card-description">
-                                Полностью продукт, который охватывает все более подробно с расширенными возможностями и поддержкой.
+                                Полноценный продукт, который охватывает все более подробно с расширенными возможностями и поддержкой.
                             </p>
                             <ul class="education-card-features">
                                 <li>
@@ -564,13 +564,13 @@
                                         <line x1="12" y1="1" x2="12" y2="23"></line>
                                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                                     </svg>
-                                    Сумма для обучения без обязательства возврата
+                                    Сумма для обучения
                                 </li>
                                 <li>
                                     <svg class="feature-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                                     </svg>
-                                    Пониженные комиссии на сервисы
+                                    Пониженные комиссии на торговом терминале и специальные цены на продукты
                                 </li>
                                 <li>
                                     <svg class="feature-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -579,7 +579,7 @@
                                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                     </svg>
-                                    Личный куратор на время обучения + 3 месяца после
+                                   Куратор на время обучения + 3 месяца после
                                 </li>
                                 <li>
                                     <svg class="feature-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -601,7 +601,7 @@
                                 </li>
                             </ul>
                             <a href="#education-plus" class="education-card-button education-card-button-paid">
-                                Education ApeVault+
+                                PRO Academy
                             </a>
                         </div>
                     </div>
@@ -1063,7 +1063,7 @@
                         <h3 class="product-name">Резервный пул сообщества</h3>
                         <p class="product-desc">Минимальное участие — 5 000₽ в месяц. Защищай свой депозит, получай поддержку в случае ошибок и помогай сообществу</p>
                         <div class="price-single">от 5 000₽ / мес</div>
-                        <button class="select-btn">Выбрать</button>
+                        <button class="select-btn" data-product="pool">Выбрать</button>
                     </div>
 
                     <div class="product-card">
@@ -1315,20 +1315,39 @@
         <section id="roadmap" class="roadmap-section">
             <div class="roadmap-container">
                 <h2 class="roadmap-title">Крипто-карта</h2>
-                <p class="roadmap-subtitle">От новичка до мастера DeFi и трейдинга — 17 модулей, пошаговая карта обучения</p>
+                <p class="roadmap-subtitle">От новичка до мастера DeFi и трейдинга — пошаговая карта обучения</p>
+
+                <!-- Переключатель академий -->
+                <div class="roadmap-academy-switcher">
+                    <button class="academy-switch-btn active" data-academy="pro">
+                        <i class="fa-solid fa-certificate"></i>
+                        PRO Academy
+                    </button>
+                    <button class="academy-switch-btn" data-academy="base">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        BASE Academy
+                    </button>
+                </div>
 
                 <!-- Сноска -->
                 <div class="roadmap-note-card">
                     <strong>Важно:</strong> программа не отражает все уроки, практику и вебинары. Домашние задания и дополнительные темы обсуждаются по факту обучения с участниками потока.
                 </div>
 
-                <div class="roadmap">
+                <!-- PRO Academy -->
+                <div class="roadmap roadmap-pro active">
                     <!-- Линия -->
                     <div class="roadmap-line"></div>
 
                     <!-- Модули -->
-                    <!-- 1-4: зеленые -->
+                    <!-- 1-5: зеленые -->
                     <div class="roadmap-module roadmap-module-green">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-green"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-flag"></i></div>
                         <div class="roadmap-module-header">Модуль 1: Начало твоего пути</div>
@@ -1342,6 +1361,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-green">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-green"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-coins"></i></div>
                         <div class="roadmap-module-header">Модуль 2: Введение в крипту</div>
@@ -1361,6 +1386,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-green">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-green"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-shield-halved"></i></div>
                         <div class="roadmap-module-header">Модуль 3: Безопасность операций с криптовалютой</div>
@@ -1384,6 +1415,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-green">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-green"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-building-columns"></i></div>
                         <div class="roadmap-module-header">Модуль 4: Все по биржам</div>
@@ -1402,8 +1439,14 @@
                         </ul>
                     </div>
 
-                    <!-- 5-6: зеленые -->
+                    <!-- 5: зеленый -->
                     <div class="roadmap-module roadmap-module-green">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-green"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-chart-line"></i></div>
                         <div class="roadmap-module-header">Модуль 5: Фундаментальный анализ</div>
@@ -1421,13 +1464,20 @@
                         </ul>
                     </div>
 
-                    <div class="roadmap-module roadmap-module-green">
-                        <div class="roadmap-marker roadmap-marker-green"></div>
+                    <!-- 6-12: желтые -->
+                    <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
+                        <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-chart-area"></i></div>
                         <div class="roadmap-module-header">Модуль 6: Технический анализ</div>
                         <p class="roadmap-module-desc">В этом модуле ты освоишь основы технического анализа: научишься читать графики, видеть тренды и распознавать паттерны. Мы разберём ключевые индикаторы, покажем, как на их основе выстраивать рабочие торговые стратегии и принимать взвешенные решения.</p>
                         <p class="roadmap-module-desc">Ты поймёшь, какие ошибки совершают начинающие трейдеры, и научишься избегать их с самого старта. Этот модуль даст тебе практические навыки, без которых невозможна уверенная и осознанная торговля.</p>
-                        <button class="roadmap-toggle-lessons roadmap-toggle-green">Показать уроки</button>
+                        <button class="roadmap-toggle-lessons roadmap-toggle-yellow">Показать уроки</button>
                         <ul class="roadmap-lessons">
                             <li>Введение в технический анализ</li>
                             <li>Тренды и линии поддержки/сопротивления</li>
@@ -1442,6 +1492,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-basket-shopping"></i></div>
                         <div class="roadmap-module-header">Модуль 7: Спот торговля и стейкинг проектов</div>
@@ -1458,6 +1514,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-scale-balanced"></i></div>
                         <div class="roadmap-module-header">Модуль 8: Фьючерсная торговля</div>
@@ -1470,6 +1532,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-gift"></i></div>
                         <div class="roadmap-module-header">Модуль 9: AIRDROP</div>
@@ -1483,6 +1551,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-network-wired"></i></div>
                         <div class="roadmap-module-header">Модуль 10: DeFi</div>
@@ -1497,6 +1571,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-cube"></i></div>
                         <div class="roadmap-module-header">Модуль 11: Токенизированные системы</div>
@@ -1509,20 +1589,32 @@
                         </ul>
                     </div>
 
-                    <!-- 12-16: фиолетово-синие -->
-                    <div class="roadmap-module roadmap-module-purple">
-                        <div class="roadmap-marker roadmap-marker-purple"></div>
+                    <div class="roadmap-module roadmap-module-yellow">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
+                        <div class="roadmap-marker roadmap-marker-yellow"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-server"></i></div>
                         <div class="roadmap-module-header">Модуль 12: Ончейн-инфраструктура и реальные активы</div>
                         <p class="roadmap-module-desc">В этом модуле ты познакомишься с децентрализованными физическими сетями и принципами токенизации реальных активов. Мы разберём, как цифровые токены могут представлять недвижимость, товары и другие материальные ресурсы, и какие возможности это открывает для инвестиций и участия в проектах.</p>
-                        <button class="roadmap-toggle-lessons roadmap-toggle-purple">Показать уроки</button>
+                        <button class="roadmap-toggle-lessons roadmap-toggle-yellow">Показать уроки</button>
                         <ul class="roadmap-lessons">
                             <li>DePIN — децентрализованные физические сети</li>
                             <li>RWA — токенизация реальных активов</li>
                         </ul>
                     </div>
 
+                    <!-- 13-17: фиолетовые -->
                     <div class="roadmap-module roadmap-module-purple">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-purple"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-exchange-alt"></i></div>
                         <div class="roadmap-module-header">Модуль 13: Арбитраж</div>
@@ -1537,6 +1629,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-purple">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-purple"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-image"></i></div>
                         <div class="roadmap-module-header">Модуль 14: NFT</div>
@@ -1552,6 +1650,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-purple">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-purple"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
                         <div class="roadmap-module-header">Модуль 15: Мемкоины</div>
@@ -1572,6 +1676,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-purple">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-purple"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-comment-dollar"></i></div>
                         <div class="roadmap-module-header">Модуль 16: Цифровой капитал Telegram</div>
@@ -1584,6 +1694,12 @@
                     </div>
 
                     <div class="roadmap-module roadmap-module-purple">
+                        <div class="roadmap-module-decoration">
+                            <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                            <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                        </div>
                         <div class="roadmap-marker roadmap-marker-purple"></div>
                         <div class="roadmap-module-icon"><i class="fa-solid fa-chart-pie"></i></div>
                         <div class="roadmap-module-header">Модуль 17: Polymarket — децентрализованные предсказательные рынки</div>
@@ -1600,6 +1716,17 @@
                         </ul>
                     </div>
                 </div>
+                <!-- END PRO Academy -->
+
+                <!-- BASE Academy -->
+                <div class="roadmap roadmap-base">
+                    <!-- Линия -->
+                    <div class="roadmap-line"></div>
+
+                    <!-- Модули BASE будут добавлены через JavaScript -->
+                    <div id="base-academy-modules-container"></div>
+                </div>
+                <!-- END BASE Academy -->
             </div>
             
             <!-- Крипто-декоративные элементы -->
@@ -1746,7 +1873,7 @@
                             <p>Абсолютно можно начинать с минимальной суммы. Криптовалютный рынок гибкий: вы можете инвестировать даже от 10$, чтобы понять механику рынка, потренироваться и протестировать стратегии. Учтите, что прибыль при этом будет небольшой, а комиссии съедят часть дохода. Главное — использовать только те средства, которые вы готовы временно потерять.</p>
                             <p>Мы рекомендуем стартовать с 50–100$, а в идеале — от 300$, но всё зависит от выбранного пути в крипте. Например: арбитраж — не требует больших вложений, кроме суммы, которую вы будете обменивать. Спотовый или фьючерсный рынок, мемкоины, NFT — требуют более серьёзного капитала.</p>
                             <p>Советуем тестировать одну стратегию, постепенно пополняя кошелёк, а не распыляться на всё сразу — это обычно приводит к потере денег и опыта. По любым вопросам или для помощи в выборе направления в крипте вы можете обратиться к куратору или к другим участникам сообщества.</p>
-                            <p>А ещё для каждого тарифа мы выделяем специальный кошелёк с определённой суммой, поэтому изначально вложения с вашей стороны не требуются. Есть и демо-торговля, которая позволит отработать навыки, не затрагивая сумму для обучения. Исключение — P2P и NFT и проекты со стейкингом/p>
+                            <p>А ещё для каждого тарифа мы выделяем специальный кошелёк с определённой суммой, поэтому изначально вложения с вашей стороны не требуются. Есть и демо-торговля, которая позволит отработать навыки, не затрагивая сумму для обучения. Исключение — P2P и NFT и проекты со стейкингом</p>
                         </div>
                     </div>
 
@@ -1851,7 +1978,7 @@
                             <span>Есть ли сигналы на покупку/продажу?</span>
                         </div>
                         <div class="faq-answer">
-                            Мы не даём "слепых сигналов". Но разработали по собственным стратегиям бот, который подсвечивает интересные активы и токены, но это дополнительный инструмент, облегчающий торговлю. Вместо "слепых" сигналов мы обучаем самостоятельному анализу, чтению графиков, трендов и выбору стратегий. Вы станете независимым трейдером и научитесь принимать свои решения с уверенностью. А к дополнению сможете следить за нашей торговлю на вебинарах и по кошелькам, повторяя сделки. Но учитывайте, что мы, как и все, можем ошибаться, следуйте риск-менеджменту.
+                            Мы не даём "слепых сигналов". Но разработали по собственным стратегиям автоматизированных ботов в TG, который подсвечивают интересные активы и токены, но это дополнительный инструмент, облегчающий торговлю. Вместо "слепых" сигналов мы обучаем самостоятельному анализу, чтению графиков, трендов и выбору стратегий. Вы станете независимым трейдером и научитесь принимать свои решения с уверенностью. А к дополнению сможете следить за нашей торговлю на вебинарах и по кошелькам, повторяя сделки. Но учитывайте, что мы, как и все, можем ошибаться, следуйте риск-менеджменту.
                         </div>
                     </div>
 
@@ -2112,6 +2239,46 @@
             });
         });
     </script>
+
+    <!-- Модальное окно выбора суммы пула -->
+    <div id="poolAmountModal" class="pool-modal">
+        <div class="pool-modal-backdrop"></div>
+        <div class="pool-modal-content">
+            <button class="pool-modal-close" aria-label="Закрыть">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="pool-modal-header">
+                <h3>Выберите сумму пула</h3>
+                <p>Резервный пул сообщества</p>
+            </div>
+            <div class="pool-modal-body">
+                <div class="pool-amount-options">
+                    <button class="pool-amount-btn" data-amount="5000">5.000₽</button>
+                    <button class="pool-amount-btn" data-amount="10000">10.000₽</button>
+                    <button class="pool-amount-btn" data-amount="20000">20.000₽</button>
+                    <button class="pool-amount-btn" data-amount="30000">30.000₽</button>
+                    <button class="pool-amount-btn" data-amount="50000">50.000₽</button>
+                    <button class="pool-amount-btn" data-amount="75000">75.000₽</button>
+                    <button class="pool-amount-btn" data-amount="100000">100.000₽</button>
+                    <button class="pool-amount-btn" data-amount="150000">150.000₽</button>
+                    <button class="pool-amount-btn" data-amount="200000">200.000₽</button>
+                </div>
+                <div class="pool-custom-amount">
+                    <label for="customAmount">Или укажите свою сумму:</label>
+                    <div class="pool-custom-input-wrapper">
+                        <input type="number" id="customAmount" class="pool-custom-input" placeholder="Введите сумму" min="5000" step="1000">
+                        <span class="pool-currency">₽</span>
+                    </div>
+                </div>
+                <div class="pool-modal-actions">
+                    <button class="pool-confirm-btn" disabled>Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

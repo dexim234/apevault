@@ -825,6 +825,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Products Section - Select Button
     document.querySelectorAll('.select-btn').forEach(btn => {
         btn.addEventListener('click', function() {
+            // Проверяем, является ли это кнопкой для резервного пула
+            if (this.getAttribute('data-product') === 'pool') {
+                openPoolAmountModal();
+                return;
+            }
+            
             const card = this.closest('.product-card');
             const productName = card.querySelector('.product-name')?.textContent || 'Продукт';
             const priceOptions = card.querySelector('.price-options');
@@ -859,6 +865,151 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 150);
         });
     });
+    
+    // Pool Amount Modal Functionality
+    function openPoolAmountModal() {
+        const modal = document.getElementById('poolAmountModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Сброс выбранной суммы
+            resetPoolModal();
+        }
+    }
+    
+    function closePoolAmountModal() {
+        const modal = document.getElementById('poolAmountModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            resetPoolModal();
+        }
+    }
+    
+    function resetPoolModal() {
+        // Сброс активных кнопок
+        document.querySelectorAll('.pool-amount-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        // Очистка поля ввода
+        const customInput = document.getElementById('customAmount');
+        if (customInput) {
+            customInput.value = '';
+        }
+        // Деактивация кнопки подтверждения
+        const confirmBtn = document.querySelector('.pool-confirm-btn');
+        if (confirmBtn) {
+            confirmBtn.disabled = true;
+        }
+    }
+    
+    function updateConfirmButton() {
+        const confirmBtn = document.querySelector('.pool-confirm-btn');
+        if (!confirmBtn) return;
+        
+        const hasActiveButton = document.querySelector('.pool-amount-btn.active');
+        const customInput = document.getElementById('customAmount');
+        const hasCustomValue = customInput && customInput.value && parseInt(customInput.value) >= 5000;
+        
+        confirmBtn.disabled = !(hasActiveButton || hasCustomValue);
+    }
+    
+    function getSelectedAmount() {
+        const activeButton = document.querySelector('.pool-amount-btn.active');
+        if (activeButton) {
+            return parseInt(activeButton.getAttribute('data-amount'));
+        }
+        
+        const customInput = document.getElementById('customAmount');
+        if (customInput && customInput.value) {
+            const customAmount = parseInt(customInput.value);
+            if (customAmount >= 5000) {
+                return customAmount;
+            }
+        }
+        
+        return null;
+    }
+    
+    // Инициализация модального окна выбора суммы пула
+    const poolModal = document.getElementById('poolAmountModal');
+    if (poolModal) {
+        // Закрытие по клику на backdrop
+        const backdrop = poolModal.querySelector('.pool-modal-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', closePoolAmountModal);
+        }
+        
+        // Закрытие по клику на кнопку закрытия
+        const closeBtn = poolModal.querySelector('.pool-modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closePoolAmountModal);
+        }
+        
+        // Закрытие по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && poolModal.classList.contains('active')) {
+                closePoolAmountModal();
+            }
+        });
+        
+        // Обработка выбора суммы из кнопок
+        document.querySelectorAll('.pool-amount-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Убираем активность с других кнопок
+                document.querySelectorAll('.pool-amount-btn').forEach(b => b.classList.remove('active'));
+                // Активируем текущую кнопку
+                this.classList.add('active');
+                // Очищаем поле ввода
+                const customInput = document.getElementById('customAmount');
+                if (customInput) {
+                    customInput.value = '';
+                }
+                // Обновляем кнопку подтверждения
+                updateConfirmButton();
+            });
+        });
+        
+        // Обработка ввода своей суммы
+        const customInput = document.getElementById('customAmount');
+        if (customInput) {
+            customInput.addEventListener('input', function() {
+                // Убираем активность с кнопок при вводе
+                if (this.value) {
+                    document.querySelectorAll('.pool-amount-btn').forEach(b => b.classList.remove('active'));
+                }
+                // Обновляем кнопку подтверждения
+                updateConfirmButton();
+            });
+            
+            // Валидация минимальной суммы
+            customInput.addEventListener('blur', function() {
+                const value = parseInt(this.value);
+                if (this.value && value < 5000) {
+                    alert('Минимальная сумма участия — 5 000₽');
+                    this.value = '';
+                    updateConfirmButton();
+                }
+            });
+        }
+        
+        // Обработка подтверждения
+        const confirmBtn = document.querySelector('.pool-confirm-btn');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function() {
+                if (this.disabled) return;
+                
+                const amount = getSelectedAmount();
+                if (amount) {
+                    console.log('Выбрана сумма пула:', amount.toLocaleString('ru-RU') + '₽');
+                    // Здесь можно добавить логику для обработки выбранной суммы
+                    // Например, отправка на сервер или переход на страницу оплаты
+                    alert('Выбрана сумма: ' + amount.toLocaleString('ru-RU') + '₽');
+                    closePoolAmountModal();
+                }
+            });
+        }
+    }
     
     // Learning Features Section - Animation
     const featureCards = document.querySelectorAll('.feature-card');
@@ -932,47 +1083,87 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to update roadmap line gradient transition point
     function updateRoadmapLineTransition() {
-        const roadmapContainer = document.querySelector('.roadmap');
-        const roadmapLine = document.querySelector('.roadmap-line');
-        if (!roadmapContainer || !roadmapLine) return;
+        // Находим активный контейнер (PRO или BASE)
+        const roadmapPro = document.querySelector('.roadmap-pro.active');
+        const roadmapBase = document.querySelector('.roadmap-base.active');
+        const activeContainer = roadmapPro || roadmapBase;
         
-        // Find module 6 by its header text
-        const modules = document.querySelectorAll('.roadmap-module');
-        let module6 = null;
-        let module11 = null;
+        if (!activeContainer) return;
         
-        modules.forEach(module => {
-            const header = module.querySelector('.roadmap-module-header');
-            if (header && header.textContent.includes('Модуль 6')) {
-                module6 = module;
-            }
-            if (header && header.textContent.includes('Модуль 11')) {
-                module11 = module;
-            }
-        });
+        const roadmapLine = activeContainer.querySelector('.roadmap-line');
+        if (!roadmapLine) return;
         
-        const containerHeight = roadmapContainer.offsetHeight;
+        const modules = activeContainer.querySelectorAll('.roadmap-module');
+        if (modules.length === 0) return;
         
-        // If we found module 6, calculate its end position
-        if (module6) {
-            const module6Top = module6.offsetTop;
-            const module6Height = module6.offsetHeight;
-            const module6Bottom = module6Top + module6Height;
-            const transitionPercent = (module6Bottom / containerHeight) * 100;
+        const containerHeight = activeContainer.offsetHeight;
+        
+        // Для PRO академии (17 модулей: зеленые 1-5, желтые 6-12, фиолетовые 13-17)
+        if (roadmapPro) {
+            let module5 = null;
+            let module12 = null;
             
-            // Update CSS variable
-            roadmapLine.style.setProperty('--module6-end', transitionPercent + '%');
+            modules.forEach(module => {
+                const header = module.querySelector('.roadmap-module-header');
+                if (header && header.textContent.includes('Модуль 5')) {
+                    module5 = module;
+                }
+                if (header && header.textContent.includes('Модуль 12')) {
+                    module12 = module;
+                }
+            });
+            
+            // Переход с зеленого на желтый после модуля 5
+            if (module5) {
+                const module5Top = module5.offsetTop;
+                const module5Height = module5.offsetHeight;
+                const module5Bottom = module5Top + module5Height;
+                const transitionPercent = (module5Bottom / containerHeight) * 100;
+                roadmapLine.style.setProperty('--module5-end', transitionPercent + '%');
+            }
+            
+            // Переход с желтого на фиолетовый после модуля 12
+            if (module12) {
+                const module12Top = module12.offsetTop;
+                const module12Height = module12.offsetHeight;
+                const module12Bottom = module12Top + module12Height;
+                const purpleStartPercent = (module12Bottom / containerHeight) * 100;
+                roadmapLine.style.setProperty('--module12-end', purpleStartPercent + '%');
+            }
         }
         
-        // If we found module 11, calculate its end position for purple color start
-        if (module11) {
-            const module11Top = module11.offsetTop;
-            const module11Height = module11.offsetHeight;
-            const module11Bottom = module11Top + module11Height;
-            const purpleStartPercent = (module11Bottom / containerHeight) * 100;
+        // Для BASE академии (12 модулей: зеленые 1-4, желтые 5-8, фиолетовые 9-12)
+        if (roadmapBase) {
+            let module4 = null; // Последний зеленый модуль
+            let module8 = null; // Последний желтый модуль
             
-            // Update CSS variable for purple color start (after module 11)
-            roadmapLine.style.setProperty('--module11-end', purpleStartPercent + '%');
+            modules.forEach(module => {
+                const header = module.querySelector('.roadmap-module-header');
+                if (header && header.textContent.includes('Модуль 4')) {
+                    module4 = module;
+                }
+                if (header && header.textContent.includes('Модуль 8')) {
+                    module8 = module;
+                }
+            });
+            
+            // Переход с зеленого на желтый после модуля 4
+            if (module4) {
+                const module4Top = module4.offsetTop;
+                const module4Height = module4.offsetHeight;
+                const module4Bottom = module4Top + module4Height;
+                const transitionPercent = (module4Bottom / containerHeight) * 100;
+                roadmapLine.style.setProperty('--module4-end', transitionPercent + '%');
+            }
+            
+            // Переход с желтого на фиолетовый после модуля 8
+            if (module8) {
+                const module8Top = module8.offsetTop;
+                const module8Height = module8.offsetHeight;
+                const module8Bottom = module8Top + module8Height;
+                const purpleStartPercent = (module8Bottom / containerHeight) * 100;
+                roadmapLine.style.setProperty('--module8-end', purpleStartPercent + '%');
+            }
         }
     }
     
@@ -1042,4 +1233,255 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.toggle('active');
         });
     });
+
+    // Roadmap Academy Switcher
+    function getBaseAcademyModules() {
+        return [
+            {
+                title: 'Начало твоего пути',
+                description: 'В этом модуле ты разберёшься, как устроен курс: кто тебя будет вести, какую поддержку получишь и как вообще всё здесь работает.',
+                lessons: [
+                    'Знакомство со спикерами и программой курса',
+                    'FAQ'
+                ],
+                icon: 'fa-flag',
+                color: 'green'
+            },
+            {
+                title: 'Введение в крипту',
+                description: 'В этом модуле ты разберёшься, что такое криптовалюта на самом деле: зачем она нужна, как работает и как в неё заходят с нуля.',
+                lessons: [
+                    'Личные цели и маршрут',
+                    'Криптовалюта: основа основ',
+                    'Как покупать и продавать криптовалюты',
+                    'Базовая информация по стратегии и портфелю',
+                    'Заводим свои первые кошельки',
+                    'Риск и мани-менеджмент'
+                ],
+                icon: 'fa-coins',
+                color: 'green'
+            },
+            {
+                title: 'Безопасность операций с криптовалютой',
+                description: 'В этом модуле ты узнаешь, как надёжно защищать свои средства и личные данные, а главное — как вовремя распознавать и обходить мошеннические схемы.',
+                lessons: [
+                    'Основы безопасности в криптовалюте'
+                ],
+                icon: 'fa-shield-halved',
+                color: 'green'
+            },
+            {
+                title: 'Биржи',
+                description: 'В этом модуле ты разберёшься, как устроены криптобиржи и чем различаются их форматы.',
+                lessons: [
+                    'Основа основ',
+                    'DEX-мониторы',
+                    'Биржи для NFT',
+                    'Блокчейн-сканеры'
+                ],
+                icon: 'fa-building-columns',
+                color: 'green'
+            },
+            {
+                title: 'Фундаментальный анализ',
+                description: 'В этом модуле ты научишься разбираться в проектах до того, как вкладываешь деньги.',
+                lessons: [
+                    'Что такое ФА и почему это важно',
+                    'Команда, ниша, новости и инвесторы'
+                ],
+                icon: 'fa-chart-line',
+                color: 'yellow'
+            },
+            {
+                title: 'Технический анализ и маржинальная торговля',
+                description: 'В этом модуле ты освоишь основы технического анализа: научишься читать графики, видеть тренды и распознавать паттерны.',
+                lessons: [
+                    'Основа анализа',
+                    'Маржинальная торговля'
+                ],
+                icon: 'fa-chart-area',
+                color: 'yellow'
+            },
+            {
+                title: 'Спот торговля и стейкинг проектов',
+                description: 'В этом модуле ты разберёшься, как работать на спотовом рынке и грамотно стейкать проекты.',
+                lessons: [
+                    'Введение в спот-торговлю и стейкинг',
+                    'Биржевой интерфейс и типы ордеров, чтение стакана и объемов'
+                ],
+                icon: 'fa-basket-shopping',
+                color: 'yellow'
+            },
+            {
+                title: 'Фьючерсная торговля',
+                description: 'В этом модуле ты освоишь торговлю с плечом: поймёшь, как правильно открывать и защищать позиции.',
+                lessons: [
+                    'Основа про фьючерсы'
+                ],
+                icon: 'fa-scale-balanced',
+                color: 'yellow'
+            },
+            {
+                title: 'AIRDROP',
+                description: 'В этом модуле ты разберёшься, что такое аирдропы и как получать «бесплатные токены» безопасно и эффективно.',
+                lessons: [
+                    'Airdrop: начало твоего пути',
+                    'Где находить AirDrop'
+                ],
+                icon: 'fa-gift',
+                color: 'purple'
+            },
+            {
+                title: 'Арбитраж',
+                description: 'В этом модуле ты узнаешь, как зарабатывать на разнице цен между биржами, торговыми парами и платформами.',
+                lessons: [
+                    'Основа арбитража (P2P)'
+                ],
+                icon: 'fa-exchange-alt',
+                color: 'purple'
+            },
+            {
+                title: 'NFT',
+                description: 'В этом модуле ты научишься понимать, создавать и торговать NFT.',
+                lessons: [
+                    'Введение в NFT'
+                ],
+                icon: 'fa-image',
+                color: 'purple'
+            },
+            {
+                title: 'Мемкоины',
+                description: 'В рамках этого модуля мы научим анализировать и торговать мемкоинами.',
+                lessons: [
+                    'Важно знать',
+                    'Анализ токенов'
+                ],
+                icon: 'fa-face-smile-beam',
+                color: 'purple'
+            }
+        ];
+    }
+
+    function generateBaseAcademyModules() {
+        const container = document.getElementById('base-academy-modules-container');
+        if (!container) return;
+
+        const modules = getBaseAcademyModules();
+        let html = '';
+
+        modules.forEach((module, index) => {
+            const moduleNumber = index + 1;
+            const colorClass = module.color === 'green' ? 'roadmap-module-green' : 
+                             module.color === 'yellow' ? 'roadmap-module-yellow' : 
+                             'roadmap-module-purple';
+            const markerClass = module.color === 'green' ? 'roadmap-marker-green' : 
+                               module.color === 'yellow' ? 'roadmap-marker-yellow' : 
+                               'roadmap-marker-purple';
+            const toggleClass = module.color === 'green' ? 'roadmap-toggle-green' : 
+                               module.color === 'yellow' ? 'roadmap-toggle-yellow' : 
+                               'roadmap-toggle-purple';
+
+            const lessonsHtml = module.lessons.map(lesson => `<li>${lesson}</li>`).join('');
+
+            html += `
+                <div class="roadmap-module ${colorClass}">
+                    <div class="roadmap-module-decoration">
+                        <div class="roadmap-module-corner roadmap-module-corner-tl"></div>
+                        <div class="roadmap-module-corner roadmap-module-corner-tr"></div>
+                        <div class="roadmap-module-corner roadmap-module-corner-bl"></div>
+                        <div class="roadmap-module-corner roadmap-module-corner-br"></div>
+                    </div>
+                    <div class="roadmap-marker ${markerClass}"></div>
+                    <div class="roadmap-module-icon"><i class="fa-solid ${module.icon}"></i></div>
+                    <div class="roadmap-module-header">Модуль ${moduleNumber}: ${module.title}</div>
+                    <p class="roadmap-module-desc">${module.description}</p>
+                    <button class="roadmap-toggle-lessons ${toggleClass}">Показать уроки</button>
+                    <ul class="roadmap-lessons">
+                        ${lessonsHtml}
+                    </ul>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+        // Инициализируем toggle для новых модулей
+        const newToggleButtons = container.querySelectorAll('.roadmap-toggle-lessons');
+        newToggleButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lessons = this.nextElementSibling;
+                if (lessons && lessons.classList.contains('roadmap-lessons')) {
+                    if (lessons.style.display === 'block') {
+                        lessons.style.display = 'none';
+                        this.textContent = 'Показать уроки';
+                    } else {
+                        lessons.style.display = 'block';
+                        this.textContent = 'Скрыть уроки';
+                    }
+                    // Update line transition after module expansion/collapse
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            if (typeof updateRoadmapLineTransition === 'function') {
+                                updateRoadmapLineTransition();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        // Обновляем линию после генерации модулей
+        setTimeout(() => {
+            if (typeof updateRoadmapLineTransition === 'function') {
+                updateRoadmapLineTransition();
+            }
+        }, 100);
+    }
+
+    // Инициализация переключателя академий
+    const academySwitcher = document.querySelector('.roadmap-academy-switcher');
+    if (academySwitcher) {
+        const switchButtons = academySwitcher.querySelectorAll('.academy-switch-btn');
+        const roadmapPro = document.querySelector('.roadmap-pro');
+        const roadmapBase = document.querySelector('.roadmap-base');
+
+        // Генерируем модули BASE при первой загрузке
+        generateBaseAcademyModules();
+
+        switchButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const academy = this.getAttribute('data-academy');
+
+                // Обновляем активные кнопки
+                switchButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Переключаем видимость академий
+                if (academy === 'pro') {
+                    if (roadmapPro) roadmapPro.classList.add('active');
+                    if (roadmapBase) roadmapBase.classList.remove('active');
+                } else if (academy === 'base') {
+                    if (roadmapPro) roadmapPro.classList.remove('active');
+                    if (roadmapBase) roadmapBase.classList.add('active');
+                }
+
+                // Обновляем подзаголовок
+                const subtitle = document.querySelector('.roadmap-subtitle');
+                if (subtitle) {
+                    if (academy === 'pro') {
+                        subtitle.textContent = 'От новичка до мастера DeFi и трейдинга — 17 модулей, пошаговая карта обучения';
+                    } else {
+                        subtitle.textContent = 'От новичка до мастера DeFi и трейдинга — 12 модулей, пошаговая карта обучения';
+                    }
+                }
+
+                // Обновляем линию после переключения
+                setTimeout(() => {
+                    if (typeof updateRoadmapLineTransition === 'function') {
+                        updateRoadmapLineTransition();
+                    }
+                }, 100);
+            });
+        });
+    }
 });
