@@ -10926,6 +10926,8 @@ body::before {
     padding-bottom: 5rem;
     background: var(--dark);
     overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .roadmap-container {
@@ -10933,6 +10935,7 @@ body::before {
     margin: 0 auto;
     position: relative;
     z-index: 2;
+    overflow: visible;
 }
 
 .roadmap-title {
@@ -11048,6 +11051,7 @@ body::before {
     margin: 0 auto;
     gap: 3rem;
     padding-left: 50px;
+    overflow: visible;
 }
 
 .roadmap-pro.active,

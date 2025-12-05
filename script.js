@@ -1475,6 +1475,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                // Обновляем сноску
+                const noteCard = document.querySelector('.roadmap-note-card');
+                if (noteCard) {
+                    if (academy === 'pro') {
+                        noteCard.innerHTML = '<strong>Важно:</strong> программа не отражает все уроки, практику и вебинары. Домашние задания и дополнительные темы обсуждаются по факту обучения с участниками потока.';
+                    } else {
+                        noteCard.innerHTML = '<strong>Важно:</strong> программа не отражает практику и часть уроков, которые будут в формате бонусов и вебинаров "здесь и сейчас"';
+                    }
+                }
+
                 // Обновляем линию после переключения
                 setTimeout(() => {
                     if (typeof updateRoadmapLineTransition === 'function') {
