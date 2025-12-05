@@ -10925,9 +10925,7 @@ body::before {
     padding-top: 3.75rem;
     padding-bottom: 5rem;
     background: var(--dark);
-    overflow: visible;
     overflow-x: hidden;
-    overflow-y: visible;
 }
 
 .roadmap-container {
@@ -11533,6 +11531,7 @@ body::before {
         padding-bottom: 3rem;
         scroll-margin-top: 0;
         scroll-snap-align: none;
+        overflow-x: hidden;
     }
 
     .roadmap-academy-switcher {
@@ -11614,6 +11613,7 @@ body::before {
         padding-bottom: 3rem;
         scroll-margin-top: 0;
         scroll-snap-align: none;
+        overflow-x: hidden;
     }
 
     .roadmap-academy-switcher {
