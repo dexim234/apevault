@@ -12081,6 +12081,7 @@ body::before {
 .pool-modal-content {
     position: relative;
     max-width: 600px;
+    max-height: 90vh;
     width: 100%;
     background: linear-gradient(135deg, 
         rgba(18, 20, 18, 0.98) 0%, 
@@ -12096,9 +12097,12 @@ body::before {
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 0 60px rgba(69, 111, 68, 0.15);
     padding: 40px;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     animation: poolModalAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes poolModalAppear {
@@ -12181,6 +12185,9 @@ body::before {
 .pool-modal-body {
     position: relative;
     z-index: 1;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .pool-amount-options {
@@ -12325,6 +12332,7 @@ body::before {
     .pool-modal-content {
         padding: 30px 20px;
         max-width: 100%;
+        max-height: 85vh;
     }
 
     .pool-amount-options {
@@ -12354,6 +12362,7 @@ body::before {
 
     .pool-modal-content {
         padding: 25px 15px;
+        max-height: 90vh;
     }
 }
 
